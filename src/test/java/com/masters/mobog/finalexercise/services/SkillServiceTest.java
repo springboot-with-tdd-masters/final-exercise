@@ -15,6 +15,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -54,7 +55,7 @@ public class SkillServiceTest {
         skill.setDuration(4);
         when(repository.save(any(Skill.class))).thenReturn(skill);
         // when
-        Skill actual = null;
+        Skill actual = service.addSkillToEmployee(1L, skill);
         // then
         verify(employeeRepository).findById(anyLong());
         verify(repository).save(any(Skill.class));
@@ -76,11 +77,13 @@ public class SkillServiceTest {
         skill.setEmployee(employee);
         skill.setDescription("Skill 2");
         skill.setDuration(4);
+        when(repository.findById(anyLong())).thenReturn(Optional.of(skill));
         when(repository.save(any(Skill.class))).thenReturn(skill);
         // when
-        Skill actual = null;
+        Skill actual = service.updateEmployeeSkill(1L, skill);
         // then
         verify(employeeRepository).findById(anyLong());
+        verify(repository).findById(anyLong());
         verify(repository).save(any(Skill.class));
         assertNotNull(actual);
     }
@@ -99,10 +102,13 @@ public class SkillServiceTest {
         skill.setDescription("Skill 2");
         skill.setDuration(4);
         Page page = mock(Page.class);
+        when(page.getContent()).thenReturn(List.of(skill));
+        when(employeeRepository.findById(anyLong())).thenReturn(Optional.of(employee));
         when(repository.findAllByEmployeeId(anyLong(), any(Pageable.class))).thenReturn(page);
         // when
-        Page<Skill> actual = null;
+        Page<Skill> actual = service.getAllEmployeeSkills(1L, Pageable.unpaged());
         // then
+        verify(employeeRepository).findById(anyLong());
         verify(repository).findAllByEmployeeId(anyLong(), any(Pageable.class));
         assertFalse(actual.getContent().isEmpty());
     }
@@ -121,10 +127,13 @@ public class SkillServiceTest {
         skill.setDescription("Skill 2");
         skill.setDuration(4);
         Page page = mock(Page.class);
+        when(employeeRepository.findById(anyLong())).thenReturn(Optional.of(employee));
+        when(repository.findById(anyLong())).thenReturn(Optional.of(skill));
         // when
-        Page<Skill> actual = null;
+        service.deleteEmployeeSkill(1L, 1L);
         // then
+        verify(employeeRepository).findById(anyLong());
+        verify(repository).findById(anyLong());
         verify(repository).delete(any(Skill.class));
-        assertFalse(actual.getContent().isEmpty());
     }
 }
