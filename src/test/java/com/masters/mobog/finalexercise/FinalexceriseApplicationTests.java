@@ -1,4 +1,4 @@
-package com.masters.mobog.finalexcerise;
+package com.masters.mobog.finalexercise;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
