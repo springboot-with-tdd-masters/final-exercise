@@ -3,14 +3,14 @@ package com.masters.mobog.finalexercise.exceptions;
 
 import org.springframework.http.HttpStatus;
 
-public enum FinalExerciseExceptions {
+public enum FinalExerciseExceptionsCode {
     MAPPING_EXCEPTION(HttpStatus.BAD_REQUEST, "Unable to map request"),
     EMPLOYEE_NOT_FOUND_EXCEPTION(HttpStatus.NOT_FOUND, "Employee not found"),
     SKILL_NOT_FOUND_EXCEPTION(HttpStatus.NOT_FOUND, "Skill not found")
 
     ;
 
-    private FinalExerciseExceptions(HttpStatus status, String message){
+    private FinalExerciseExceptionsCode(HttpStatus status, String message){
         this.status = status;
         this.message = message;
     }

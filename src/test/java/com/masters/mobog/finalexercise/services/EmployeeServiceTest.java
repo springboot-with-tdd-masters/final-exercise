@@ -3,6 +3,8 @@ package com.masters.mobog.finalexercise.services;
 import com.masters.mobog.finalexercise.adapters.EmployeeAdapter;
 import com.masters.mobog.finalexercise.dto.EmployeeRequest;
 import com.masters.mobog.finalexercise.entities.Employee;
+import com.masters.mobog.finalexercise.exceptions.FinalExerciseException;
+import com.masters.mobog.finalexercise.exceptions.FinalExerciseExceptionsCode;
 import com.masters.mobog.finalexercise.repositories.EmployeeRepository;
 import com.masters.mobog.finalexercise.services.impl.EmployeeServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
@@ -11,7 +13,6 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
@@ -19,8 +20,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
@@ -140,6 +140,37 @@ public class EmployeeServiceTest {
         service.delete(stub);
         // then
         verify(repository).delete(stub);
-
+    }
+    @Test
+    @DisplayName("should throw correct exception if employee not found")
+    void shouldThrowCorrectException_findById(){
+        when(repository.findById(anyLong())).thenReturn(Optional.empty());
+        //
+        FinalExerciseException ex = assertThrows(FinalExerciseException.class, () -> service.findById(1L));
+        assertEquals(ex.getMessage(), FinalExerciseExceptionsCode.EMPLOYEE_NOT_FOUND_EXCEPTION.getMessage());
+    }
+    @Test
+    @DisplayName("should throw correct exception if employee can not be saved")
+    void shouldThrowCorrectException_create(){
+        when(repository.findById(anyLong())).thenReturn(Optional.empty());
+        //
+        FinalExerciseException ex = assertThrows(FinalExerciseException.class, () -> service.findById(1L));
+        assertEquals(ex.getMessage(), FinalExerciseExceptionsCode.EMPLOYEE_NOT_FOUND_EXCEPTION.getMessage());
+    }
+    @Test
+    @DisplayName("should throw correct exception if employee can not be updated")
+    void shouldThrowCorrectException_update(){
+        when(repository.findById(anyLong())).thenReturn(Optional.empty());
+        //
+        FinalExerciseException ex = assertThrows(FinalExerciseException.class, () -> service.findById(1L));
+        assertEquals(ex.getMessage(), FinalExerciseExceptionsCode.EMPLOYEE_NOT_FOUND_EXCEPTION.getMessage());
+    }
+    @Test
+    @DisplayName("should throw correct exception if employee can not be deleted")
+    void shouldThrowCorrectException_delete(){
+        when(repository.findById(anyLong())).thenReturn(Optional.empty());
+        //
+        FinalExerciseException ex = assertThrows(FinalExerciseException.class, () -> service.findById(1L));
+        assertEquals(ex.getMessage(), FinalExerciseExceptionsCode.EMPLOYEE_NOT_FOUND_EXCEPTION.getMessage());
     }
 }
