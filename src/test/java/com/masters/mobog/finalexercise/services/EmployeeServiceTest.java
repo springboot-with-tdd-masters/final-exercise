@@ -12,7 +12,9 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.boot.test.mock.mockito.MockBean;
 
 import java.time.LocalDateTime;
+import java.util.Optional;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.verify;
@@ -56,6 +58,18 @@ public class EmployeeServiceTest {
     @Test
     @DisplayName("should find employee")
     void shouldFindEmployee() {
+        Employee stub = new Employee();
+        stub.setId(1L);
+        stub.setFirstname("Jay");
+        stub.setLastname("Rock");
+        stub.setCreatedDate(LocalDateTime.now());
+        stub.setLastModifiedDate(LocalDateTime.now());
+        when(repository.findById(1L)).thenReturn(Optional.of(stub));
+        // when
+        Employee actual = this.service.findById(1L);
+        verify(repository).findById(1L);
+        assertEquals("Jay", actual.getFirstname());
+        assertEquals("Rock", actual.getLastname());
 
     }
     @Test
