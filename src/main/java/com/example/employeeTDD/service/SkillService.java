@@ -16,19 +16,21 @@ public class SkillService {
 	@Autowired
 	SkillRepository skillRepository;
 
-	public Page<Skill> getAllBooks(Pageable pageable) {
+	public Page<Skill> getAllSkills(Pageable pageable) {
 		return skillRepository.findAll(pageable);
 	}
 
-	public Optional<Skill> getBookById(Long id) {
+	public Optional<Skill> getSkillById(Long id) {
 		return skillRepository.findById(id);
 	}
 
-	public Skill createOrUpdateBook(Skill entity) throws RecordNotFoundException {
-		Optional<Skill> book = getBookById(entity.getId());
-		if (book.isPresent()) {
-			Skill newEntity = book.get();
+	public Skill createOrUpdateSkill(Skill entity) throws RecordNotFoundException {
+		Optional<Skill> skill = getSkillById(entity.getId());
+		if (skill.isPresent()) {
+			Skill newEntity = skill.get();
 			newEntity.setDescription(entity.getDescription());
+			newEntity.setDuration(entity.getDuration());
+			newEntity.setLastUsed(entity.getLastUsed());
 			newEntity = skillRepository.save(newEntity);
 			return newEntity;
 		} else {
@@ -38,7 +40,7 @@ public class SkillService {
 	}
 
 	public void deleteByUserId(Long id) throws RecordNotFoundException {
-		Optional<Skill> book = getBookById(id);
+		Optional<Skill> book = getSkillById(id);
 		if (book.isPresent()) {
 			skillRepository.deleteById(id);
 		} else {

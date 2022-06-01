@@ -1,8 +1,8 @@
 package com.example.employeeTDD.controller;
 
+import com.example.employeeTDD.config.OAuthHelper;
 import com.example.employeeTDD.model.Skill;
 import com.example.employeeTDD.model.Employee;
-import com.example.employeeTDD.service.SkillService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.DisplayName;
@@ -13,6 +13,8 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
+
+import java.time.LocalDate;
 
 import static org.hamcrest.Matchers.hasSize;
 import static org.mockito.Mockito.when;
@@ -32,7 +34,17 @@ public class SkillTestControllerTest {
     private SkillController skillController;
 
     @MockBean
-    private EmployeeController employeeController;
+    private EmployeeControllerTest employeeControllerTest;
+
+    @MockBean
+    private OAuthHelper helper;
+
+    private static final String CLIENT_ID = "devglan-client";
+
+    private static final String NO_CLIENT_ID = "";
+
+    private static final String USERNAME = "Zaldy";
+
 
     @Test
     @DisplayName("Get all skills, response should give http status 200")
@@ -40,13 +52,15 @@ public class SkillTestControllerTest {
 
         Employee employee = new Employee();
         employee.setId(1L);
-        employee.setLastName("Zaldy");
+        employee.setFirstName("Zaldy");
+        employee.setLastName("Dee");
 
         Skill skill = new Skill();
-        skill.setDescription("JK Test");
+        skill.setDescription("Java 8");
         skill.setEmployee(employee);
         skill.setId(1L);
         skill.setDuration(10);
+        skill.setLastUsed(LocalDate.parse("2020-11-30"));
 
         when(skillController.createSkills(1L, skill)).thenReturn(skill);
 
@@ -54,7 +68,7 @@ public class SkillTestControllerTest {
                         .content(mapper.writeValueAsBytes(skill))
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isCreated())
-                .andExpect(jsonPath("description", Matchers.is("JK Test")))
+                .andExpect(jsonPath("description", Matchers.is("Java 8")))
                 .andExpect(jsonPath("lastName", Matchers.is("Zaldy")));
 
     }
