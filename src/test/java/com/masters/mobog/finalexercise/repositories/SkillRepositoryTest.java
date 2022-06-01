@@ -45,25 +45,25 @@ public class SkillRepositoryTest {
         assertNotNull(actual);
 
     }
-//    @Test
-//    @DisplayName("should save skill")
-//    void shouldSaveSkillWithAudit(){
-//        Employee employee = new Employee();
-//        employee.setFirstname("Scott");
-//        employee.setLastname("Travis");
-//        Skill skill1 = new Skill();
-//        skill1.setDescription("Skill 1");
-//        skill1.setDuration(3);
-//        skill1.setLastUsed(LocalDate.now());
-//        skill1.setEmployee(employee);
-//
-//        Skill saved = repository.save(skill1);
-//
-//        // when
-//        Skill actual = entityManager.find(Skill.class, saved.getId());
-//        assertNotNull(actual);
-//
-//    }
+    @Test
+    @DisplayName("should save skill")
+    void shouldSaveSkillWithAudit(){
+        Employee employee = new Employee();
+        employee.setFirstname("Scott");
+        employee.setLastname("Travis");
+        Skill skill1 = new Skill();
+        skill1.setDescription("Skill 1");
+        skill1.setDuration(3);
+        skill1.setLastUsed(LocalDate.now());
+        skill1.setEmployee(employee);
+
+        Skill saved = repository.save(skill1);
+
+        // when
+        Skill actual = entityManager.find(Skill.class, saved.getId());
+        assertNotNull(actual);
+
+    }
 
     @Test
     @DisplayName("should update skill")
