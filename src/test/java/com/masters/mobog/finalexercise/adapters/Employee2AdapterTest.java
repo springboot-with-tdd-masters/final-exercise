@@ -1,7 +1,7 @@
 package com.masters.mobog.finalexercise.adapters;
 
 
-import com.masters.mobog.finalexercise.dto.RegisterEmployeeRequest;
+import com.masters.mobog.finalexercise.dto.EmployeeRequest;
 import com.masters.mobog.finalexercise.entities.Employee;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -20,7 +20,7 @@ public class Employee2AdapterTest {
     @Test
     @DisplayName("should map successfully")
     void shouldMapSuccessfully(){
-        RegisterEmployeeRequest request = new RegisterEmployeeRequest();
+        EmployeeRequest request = new EmployeeRequest();
         request.setLastname("Jane");
         request.setFirstname("Doe");
         Employee actual = adapter.mapToEmployee(request);

@@ -1,8 +1,6 @@
 package com.masters.mobog.finalexercise.adapters;
 
 import com.masters.mobog.finalexercise.dto.AddEmployeeSkillRequest;
-import com.masters.mobog.finalexercise.dto.RegisterEmployeeRequest;
-import com.masters.mobog.finalexercise.entities.Employee;
 import com.masters.mobog.finalexercise.entities.Skill;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;

@@ -1,11 +1,11 @@
 package com.masters.mobog.finalexercise.adapters;
 
-import com.masters.mobog.finalexercise.dto.RegisterEmployeeRequest;
+import com.masters.mobog.finalexercise.dto.EmployeeRequest;
 import com.masters.mobog.finalexercise.entities.Employee;
 
 public class EmployeeAdapter {
 
-    public Employee mapToEmployee(RegisterEmployeeRequest employeeRequest){
+    public Employee mapToEmployee(EmployeeRequest employeeRequest){
         try {
             Employee emp = new Employee();
             emp.setFirstname(employeeRequest.getFirstname());

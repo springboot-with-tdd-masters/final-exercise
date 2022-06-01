@@ -3,7 +3,7 @@ package com.masters.mobog.finalexercise.dto;
 import lombok.Data;
 
 @Data
-public class RegisterEmployeeRequest {
+public class EmployeeRequest {
     private String firstname;
     private String lastname;
 }

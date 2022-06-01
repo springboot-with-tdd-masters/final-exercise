@@ -1,5 +1,7 @@
 package com.masters.mobog.finalexercise.services;
 
+import com.masters.mobog.finalexercise.adapters.EmployeeAdapter;
+import com.masters.mobog.finalexercise.dto.EmployeeRequest;
 import com.masters.mobog.finalexercise.entities.Employee;
 import com.masters.mobog.finalexercise.repositories.EmployeeRepository;
 import com.masters.mobog.finalexercise.services.impl.EmployeeServiceImpl;
@@ -9,9 +11,8 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 
 import java.time.LocalDateTime;
@@ -31,6 +32,9 @@ public class EmployeeServiceTest {
     @Mock
     private EmployeeRepository repository;
 
+    @Autowired
+    private EmployeeAdapter adapter;
+
     @BeforeEach
     void setup(){
         service = new EmployeeServiceImpl(repository);
@@ -40,11 +44,9 @@ public class EmployeeServiceTest {
     @DisplayName("should create employee")
     void shouldCreateEmployee() {
         // given
-        Employee forSaving = new Employee();
-        forSaving.setFirstname("Jay");
-        forSaving.setLastname("Rock");
-        forSaving.setCreatedDate(LocalDateTime.now());
-        forSaving.setLastModifiedDate(LocalDateTime.now());
+        EmployeeRequest request = new EmployeeRequest();
+        request.setFirstname("Jonny");
+        request.setLastname("Braveaux");
 
         Employee stub = new Employee();
         stub.setId(1L);
@@ -54,7 +56,7 @@ public class EmployeeServiceTest {
         stub.setLastModifiedDate(LocalDateTime.now());
         when(repository.save(any(Employee.class))).thenReturn(stub);
         // when
-        Employee actual = service.createEmployee(forSaving);
+        Employee actual = service.createEmployee(request);
         verify(repository).save(any(Employee.class));
         assertNotNull(actual.getId());
     }
@@ -104,12 +106,9 @@ public class EmployeeServiceTest {
     @DisplayName("should update employee")
     void shouldUpdateEmployee() {
         // given
-        Employee forSaving = new Employee();
-        forSaving.setId(1L);
-        forSaving.setFirstname("Jay");
-        forSaving.setLastname("Rock");
-        forSaving.setCreatedDate(LocalDateTime.now());
-        forSaving.setLastModifiedDate(LocalDateTime.now());
+        EmployeeRequest request = new EmployeeRequest();
+        request.setFirstname("Jay");
+        request.setFirstname("Rock");
 
         Employee stub = new Employee();
         stub.setId(1L);
@@ -120,7 +119,7 @@ public class EmployeeServiceTest {
         when(repository.findById(anyLong())).thenReturn(Optional.of(stub));
         when(repository.save(any(Employee.class))).thenReturn(stub);
         // when
-        Employee actual = service.update(forSaving);
+        Employee actual = service.update(request);
         verify(repository).findById(anyLong());
         verify(repository).save(any(Employee.class));
         assertNotNull(actual.getId());
