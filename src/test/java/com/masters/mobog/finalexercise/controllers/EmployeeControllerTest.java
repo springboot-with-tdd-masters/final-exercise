@@ -23,6 +23,7 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import static org.hamcrest.Matchers.is;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -75,8 +76,21 @@ public class EmployeeControllerTest {
     }
     @Test
     @DisplayName("should return 200")
-    void shouldReturn200_getEmployeeById(){
-
+    void shouldReturn200_getEmployeeById() throws Exception {
+        Employee employee = new Employee();
+        employee.setId(1L);
+        employee.setFirstname("Jane");
+        employee.setLastname("Doe");
+        when(employeeService.findById(1L)).thenReturn(employee);
+        // when
+        ResultActions actual = mvc.perform(MockMvcRequestBuilders.get("/employees/1")
+        );
+        // then
+        verify(employeeService).findById(anyLong());
+        actual.andExpect(MockMvcResultMatchers.status().is2xxSuccessful());
+        actual.andExpect(MockMvcResultMatchers.jsonPath("$.id", is(1)));
+        actual.andExpect(MockMvcResultMatchers.jsonPath("$.firstname", is("Jane")));
+        actual.andExpect(MockMvcResultMatchers.jsonPath("$.lastname", is("Doe")));
     }
     @Test
     @DisplayName("should return 200")
