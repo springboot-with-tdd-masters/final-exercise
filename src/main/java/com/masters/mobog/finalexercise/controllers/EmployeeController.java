@@ -22,7 +22,7 @@ public class EmployeeController {
     }
 
     @PostMapping
-    Employee createEmployee(EmployeeRequest request){
+    Employee createEmployee(@RequestBody EmployeeRequest request){
         return this.employeeService.createEmployee(request);
     }
     @GetMapping("/{id}")
@@ -38,7 +38,7 @@ public class EmployeeController {
         this.employeeService.delete(id);
     }
     @PutMapping("/{id}")
-    Employee updateEmployee(@PathVariable Long id, EmployeeRequest request){
+    Employee updateEmployee(@PathVariable Long id, @RequestBody EmployeeRequest request){
        return this.employeeService.update(id, request);
     }
     @PostMapping("{id}/skills")

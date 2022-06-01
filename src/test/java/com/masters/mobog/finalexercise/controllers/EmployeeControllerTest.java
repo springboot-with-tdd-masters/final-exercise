@@ -120,6 +120,7 @@ public class EmployeeControllerTest {
         // when
         ResultActions actual = mvc.perform(MockMvcRequestBuilders.put("/employees/1")
                 .content(requestString)
+                .contentType(MediaType.APPLICATION_JSON)
         );
         // then
         verify(employeeService).update(anyLong(), any(EmployeeRequest.class));
