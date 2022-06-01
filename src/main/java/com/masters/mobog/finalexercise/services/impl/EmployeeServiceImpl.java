@@ -19,7 +19,7 @@ public class EmployeeServiceImpl implements EmployeeService {
     @Override
     public Employee findById(Long id) {
         Optional<Employee> found = repository.findById(id);
-        if(found.isPresent()){
+        if (found.isPresent()) {
             return found.get();
         }
         throw new NullPointerException();
@@ -32,16 +32,25 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     @Override
     public Page<Employee> findAll(Pageable pageable) {
-        return null;
+        return this.repository.findAll(pageable);
     }
 
     @Override
     public Employee update(Employee employee) {
-        return null;
+        Optional<Employee> found = repository.findById(employee.getId());
+        if (found.isPresent()) {
+            return repository.save(employee);
+        }
+        throw new NullPointerException();
     }
 
     @Override
     public void delete(Employee employee) {
-
+        Optional<Employee> found = repository.findById(employee.getId());
+        if (found.isPresent()) {
+            repository.delete(employee);
+        } else {
+            throw new NullPointerException();
+        }
     }
 }

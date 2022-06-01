@@ -97,17 +97,50 @@ public class EmployeeServiceTest {
         when(repository.findAll(any(Pageable.class))).thenReturn(page);
 
         // when
-        Page<Employee> employees = repository.findAll(Pageable.unpaged());
+        Page<Employee> employees = service.findAll(Pageable.unpaged());
         assertEquals(List.of(emp1, emp2), employees.getContent());
     }
     @Test
     @DisplayName("should update employee")
     void shouldUpdateEmployee() {
+        // given
+        Employee forSaving = new Employee();
+        forSaving.setId(1L);
+        forSaving.setFirstname("Jay");
+        forSaving.setLastname("Rock");
+        forSaving.setCreatedDate(LocalDateTime.now());
+        forSaving.setLastModifiedDate(LocalDateTime.now());
+
+        Employee stub = new Employee();
+        stub.setId(1L);
+        stub.setFirstname("Jay");
+        stub.setLastname("Rock");
+        stub.setCreatedDate(LocalDateTime.now());
+        stub.setLastModifiedDate(LocalDateTime.now());
+        when(repository.findById(anyLong())).thenReturn(Optional.of(stub));
+        when(repository.save(any(Employee.class))).thenReturn(stub);
+        // when
+        Employee actual = service.update(forSaving);
+        verify(repository).findById(anyLong());
+        verify(repository).save(any(Employee.class));
+        assertNotNull(actual.getId());
+
 
     }
     @Test
     @DisplayName("should delete employee")
     void shouldDeleteEmployee() {
+        Employee stub = new Employee();
+        stub.setId(1L);
+        stub.setFirstname("Jay");
+        stub.setLastname("Rock");
+        stub.setCreatedDate(LocalDateTime.now());
+        stub.setLastModifiedDate(LocalDateTime.now());
+        when(repository.findById(anyLong())).thenReturn(Optional.of(stub));
+        // when
+        service.delete(stub);
+        // then
+        verify(repository).delete(stub);
 
     }
 }
