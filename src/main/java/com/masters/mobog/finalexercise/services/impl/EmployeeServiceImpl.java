@@ -6,9 +6,11 @@ import com.masters.mobog.finalexercise.services.EmployeeService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
+import java.util.Optional;
+
 public class EmployeeServiceImpl implements EmployeeService {
 
-    private EmployeeRepository repository;
+    private final EmployeeRepository repository;
 
     public EmployeeServiceImpl(EmployeeRepository repository) {
         this.repository = repository;
@@ -16,7 +18,11 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     @Override
     public Employee findById(Long id) {
-        return null;
+        Optional<Employee> found = repository.findById(id);
+        if(found.isPresent()){
+            return found.get();
+        }
+        throw new NullPointerException();
     }
 
     @Override

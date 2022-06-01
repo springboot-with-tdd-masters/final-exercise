@@ -10,15 +10,18 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 public class EmployeeServiceTest {
@@ -75,7 +78,27 @@ public class EmployeeServiceTest {
     @Test
     @DisplayName("should find employee with page")
     void shouldFindEmployeesWithPage() {
+        Employee emp1 = new Employee();
+        emp1.setId(2L);
+        emp1.setFirstname("Jay");
+        emp1.setLastname("Rock");
+        emp1.setCreatedDate(LocalDateTime.now());
+        emp1.setLastModifiedDate(LocalDateTime.now());
 
+        Employee emp2 = new Employee();
+        emp2.setId(1L);
+        emp2.setFirstname("Jay");
+        emp2.setLastname("Rock");
+        emp2.setCreatedDate(LocalDateTime.now());
+        emp2.setLastModifiedDate(LocalDateTime.now());
+        Page<Employee> page = mock(Page.class);
+        when(page.getContent()).thenReturn(List.of(emp1, emp2));
+
+        when(repository.findAll(any(Pageable.class))).thenReturn(page);
+
+        // when
+        Page<Employee> employees = repository.findAll(Pageable.unpaged());
+        assertEquals(List.of(emp1, emp2), employees.getContent());
     }
     @Test
     @DisplayName("should update employee")
