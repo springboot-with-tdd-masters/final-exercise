@@ -33,6 +33,7 @@ public class SkillServiceImpl implements SkillService {
         if(found.isPresent()){
             Skill mapped = this.adapter.mapToSkill(skill);
             mapped.setEmployee(found.get());
+            mapped.setId(found.get().getId());
             return repository.save(mapped);
         }
         throw new FinalExerciseException(FinalExerciseExceptionsCode.EMPLOYEE_NOT_FOUND_EXCEPTION);
@@ -44,7 +45,11 @@ public class SkillServiceImpl implements SkillService {
         if(found.isPresent()){
             Optional<Skill> foundSkill = repository.findById(skillId);
             if(foundSkill.isPresent()){
+                Skill existingSkill = foundSkill.get();
                 Skill mapped = this.adapter.mapToSkill(skill);
+                existingSkill.setDescription(mapped.getDescription());
+                existingSkill.setDuration(mapped.getDuration());
+                existingSkill.setLastUsed(mapped.getLastUsed());
                 mapped.setEmployee(found.get());
                 return repository.save(mapped);
             }

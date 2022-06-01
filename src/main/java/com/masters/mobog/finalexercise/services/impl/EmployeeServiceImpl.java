@@ -49,7 +49,10 @@ public class EmployeeServiceImpl implements EmployeeService {
         Optional<Employee> found = repository.findById(id);
         if (found.isPresent()) {
             Employee mapped = adapter.mapToEmployee(employee);
-            return repository.save(mapped);
+            Employee foundEmployee = found.get();
+            foundEmployee.setLastname(mapped.getLastname());
+            foundEmployee.setFirstname(mapped.getFirstname());
+            return repository.save(foundEmployee);
         }
 
         throw new FinalExerciseException(FinalExerciseExceptionsCode.EMPLOYEE_NOT_FOUND_EXCEPTION);

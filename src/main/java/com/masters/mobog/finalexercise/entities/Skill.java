@@ -1,6 +1,9 @@
 package com.masters.mobog.finalexercise.entities;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIdentityReference;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import com.masters.mobog.finalexercise.entities.audit.BaseAuditEntity;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
@@ -26,6 +29,8 @@ public class Skill extends BaseAuditEntity {
     private LocalDate lastUsed;
 
     @ManyToOne
+    @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
+    @JsonIdentityReference(alwaysAsId = true)
     private Employee employee;
 
     public String getDescription() {
