@@ -1,6 +1,6 @@
 package com.masters.mobog.finalexercise.adapters;
 
-import com.masters.mobog.finalexercise.dto.AddEmployeeSkillRequest;
+import com.masters.mobog.finalexercise.dto.EmployeeSkillRequest;
 import com.masters.mobog.finalexercise.entities.Skill;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -20,7 +20,7 @@ public class SkillAdapterTest {
     @Test
     @DisplayName("should map successfully")
     void shouldMapSuccessfully(){
-        AddEmployeeSkillRequest request = new AddEmployeeSkillRequest();
+        EmployeeSkillRequest request = new EmployeeSkillRequest();
         request.setDescription("Descript");
         request.setDuration(5);
         request.setLastUsed(LocalDate.now());

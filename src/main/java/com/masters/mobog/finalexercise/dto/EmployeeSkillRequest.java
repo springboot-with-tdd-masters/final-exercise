@@ -6,7 +6,7 @@ import lombok.Data;
 import java.time.LocalDate;
 
 @Data
-public class AddEmployeeSkillRequest {
+public class EmployeeSkillRequest {
     private String description;
     private Integer duration;
     @JsonFormat(pattern="yyyy-MM-dd")

@@ -1,5 +1,6 @@
 package com.masters.mobog.finalexercise.services.impl;
 
+import com.masters.mobog.finalexercise.dto.EmployeeSkillRequest;
 import com.masters.mobog.finalexercise.entities.Employee;
 import com.masters.mobog.finalexercise.entities.Skill;
 import com.masters.mobog.finalexercise.repositories.EmployeeRepository;
@@ -19,7 +20,7 @@ public class SkillServiceImpl implements SkillService {
     }
 
     @Override
-    public Skill addSkillToEmployee(Long employeeId, Skill skill) {
+    public Skill addSkillToEmployee(Long employeeId, EmployeeSkillRequest skill) {
         Optional<Employee> found = this.employeeRepository.findById(employeeId);
         if(found.isPresent()){
             skill.setEmployee(found.get());

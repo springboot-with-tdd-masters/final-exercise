@@ -1,5 +1,6 @@
 package com.masters.mobog.finalexercise.services;
 
+import com.masters.mobog.finalexercise.dto.EmployeeSkillRequest;
 import com.masters.mobog.finalexercise.entities.Employee;
 import com.masters.mobog.finalexercise.entities.Skill;
 import com.masters.mobog.finalexercise.repositories.EmployeeRepository;
@@ -14,6 +15,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
@@ -48,12 +50,11 @@ public class SkillServiceTest {
         employee.setCreatedDate(LocalDateTime.now());
         employee.setLastModifiedDate(LocalDateTime.now());
         when(employeeRepository.findById(anyLong())).thenReturn(Optional.of(employee));
-        Skill skill = new Skill();
-        skill.setId(1L);
-        skill.setEmployee(employee);
+        EmployeeSkillRequest skill = new EmployeeSkillRequest();
+        skill.setLastUsed(LocalDate.now());
         skill.setDescription("Skill 2");
         skill.setDuration(4);
-        when(repository.save(any(Skill.class))).thenReturn(skill);
+        when(repository.save(any(Skill.class))).thenReturn(new Skill());
         // when
         Skill actual = service.addSkillToEmployee(1L, skill);
         // then
@@ -79,8 +80,12 @@ public class SkillServiceTest {
         skill.setDuration(4);
         when(repository.findById(anyLong())).thenReturn(Optional.of(skill));
         when(repository.save(any(Skill.class))).thenReturn(skill);
+        EmployeeSkillRequest request = new EmployeeSkillRequest();
+        request.setLastUsed(LocalDate.now());
+        request.setDescription("Sample");
+        request.setDuration(10);
         // when
-        Skill actual = service.updateEmployeeSkill(1L, skill);
+        Skill actual = service.updateEmployeeSkill(1L,1L, request);
         // then
         verify(employeeRepository).findById(anyLong());
         verify(repository).findById(anyLong());
