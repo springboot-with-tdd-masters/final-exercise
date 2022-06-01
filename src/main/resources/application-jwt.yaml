@@ -12,7 +12,7 @@ info:
     version: '@project.version@'
     encoding: '@project.build.sourceEncoding@'
     java.version: '@java.version@'
-spring:
-  mvc:
-    pathmatch:
-      matching-strategy: ant_path_matcher
+jwt:
+  salt: final-exercise
+  validity: 30000 # in millis
+  issuer: mobog

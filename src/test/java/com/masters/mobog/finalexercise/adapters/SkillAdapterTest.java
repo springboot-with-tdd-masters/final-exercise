@@ -25,7 +25,7 @@ public class SkillAdapterTest {
         request.setDuration(5);
         request.setLastUsed(LocalDate.now());
         Skill actual = skillAdapter.mapToSkill(request);
-        assertEquals("Jane", actual.getDescription());
+        assertEquals("Descript", actual.getDescription());
         assertEquals(5, actual.getDuration());
         assertEquals(LocalDate.now(), actual.getLastUsed());
     }
