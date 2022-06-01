@@ -1,5 +1,7 @@
 package com.masters.mobog.finalexercise.services.impl;
 
+import com.masters.mobog.finalexercise.adapters.EmployeeAdapter;
+import com.masters.mobog.finalexercise.dto.EmployeeRequest;
 import com.masters.mobog.finalexercise.entities.Employee;
 import com.masters.mobog.finalexercise.repositories.EmployeeRepository;
 import com.masters.mobog.finalexercise.services.EmployeeService;
@@ -11,9 +13,11 @@ import java.util.Optional;
 public class EmployeeServiceImpl implements EmployeeService {
 
     private final EmployeeRepository repository;
+    private final EmployeeAdapter adapter;
 
-    public EmployeeServiceImpl(EmployeeRepository repository) {
+    public EmployeeServiceImpl(EmployeeRepository repository, EmployeeAdapter adapter) {
         this.repository = repository;
+        this.adapter = adapter;
     }
 
     @Override
@@ -26,8 +30,9 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     @Override
-    public Employee createEmployee(Employee employee) {
-        return repository.save(employee);
+    public Employee createEmployee(EmployeeRequest employee) {
+        Employee mapped = adapter.mapToEmployee(employee);
+        return repository.save(mapped);
     }
 
     @Override
@@ -36,10 +41,11 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     @Override
-    public Employee update(Employee employee) {
-        Optional<Employee> found = repository.findById(employee.getId());
+    public Employee update(Long id, EmployeeRequest employee) {
+        Employee mapped = adapter.mapToEmployee(employee);
+        Optional<Employee> found = repository.findById(id);
         if (found.isPresent()) {
-            return repository.save(employee);
+            return repository.save(mapped);
         }
         throw new NullPointerException();
     }

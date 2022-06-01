@@ -10,6 +10,6 @@ public interface EmployeeService {
     Employee findById(Long id);
     Employee createEmployee(EmployeeRequest employee);
     Page<Employee> findAll(Pageable pageable);
-    Employee update(EmployeeRequest employee);
+    Employee update(Long id, EmployeeRequest employee);
     void delete(Employee employee);
 }

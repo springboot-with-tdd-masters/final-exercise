@@ -32,12 +32,12 @@ public class EmployeeServiceTest {
     @Mock
     private EmployeeRepository repository;
 
-    @Autowired
     private EmployeeAdapter adapter;
 
     @BeforeEach
     void setup(){
-        service = new EmployeeServiceImpl(repository);
+        adapter = new EmployeeAdapter();
+        service = new EmployeeServiceImpl(repository, adapter);
     }
 
     @Test
@@ -119,7 +119,7 @@ public class EmployeeServiceTest {
         when(repository.findById(anyLong())).thenReturn(Optional.of(stub));
         when(repository.save(any(Employee.class))).thenReturn(stub);
         // when
-        Employee actual = service.update(request);
+        Employee actual = service.update(1L, request);
         verify(repository).findById(anyLong());
         verify(repository).save(any(Employee.class));
         assertNotNull(actual.getId());
