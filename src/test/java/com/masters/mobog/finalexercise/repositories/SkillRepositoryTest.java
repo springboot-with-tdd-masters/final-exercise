@@ -45,6 +45,26 @@ public class SkillRepositoryTest {
         assertNotNull(actual);
 
     }
+//    @Test
+//    @DisplayName("should save skill")
+//    void shouldSaveSkillWithAudit(){
+//        Employee employee = new Employee();
+//        employee.setFirstname("Scott");
+//        employee.setLastname("Travis");
+//        Skill skill1 = new Skill();
+//        skill1.setDescription("Skill 1");
+//        skill1.setDuration(3);
+//        skill1.setLastUsed(LocalDate.now());
+//        skill1.setEmployee(employee);
+//
+//        Skill saved = repository.save(skill1);
+//
+//        // when
+//        Skill actual = entityManager.find(Skill.class, saved.getId());
+//        assertNotNull(actual);
+//
+//    }
+
     @Test
     @DisplayName("should update skill")
     void shouldUpdateSkill(){
@@ -176,7 +196,8 @@ public class SkillRepositoryTest {
         employee2.setLastname("Rock");
 
 
-        entityManager.persist(employee1);
+        Employee saved = entityManager.persist(employee1);
+        entityManager.persist(employee2);
 
         Skill skill = new Skill();
         skill.setDuration(2);
@@ -199,7 +220,7 @@ public class SkillRepositoryTest {
         entityManager.persist(skill2);
         entityManager.persist(skill3);
 
-        Page<Skill> actual = repository.findAllByEmployeeId(PageRequest.of(0, 2));
+        Page<Skill> actual = repository.findAllByEmployeeId(saved.getId(), Pageable.unpaged());
 
         assertEquals(List.of(skill, skill2), actual.getContent());
     }
