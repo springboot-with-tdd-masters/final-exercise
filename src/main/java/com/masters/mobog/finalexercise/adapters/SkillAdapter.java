@@ -2,7 +2,9 @@ package com.masters.mobog.finalexercise.adapters;
 
 import com.masters.mobog.finalexercise.dto.EmployeeSkillRequest;
 import com.masters.mobog.finalexercise.entities.Skill;
+import org.springframework.stereotype.Service;
 
+@Service
 public class SkillAdapter {
 
     public Skill mapToSkill(EmployeeSkillRequest skillRequest){

@@ -1,5 +1,6 @@
 package com.masters.mobog.finalexercise.services.impl;
 
+import com.masters.mobog.finalexercise.adapters.SkillAdapter;
 import com.masters.mobog.finalexercise.dto.EmployeeSkillRequest;
 import com.masters.mobog.finalexercise.entities.Employee;
 import com.masters.mobog.finalexercise.entities.Skill;
@@ -14,29 +15,34 @@ import java.util.Optional;
 public class SkillServiceImpl implements SkillService {
     private SkillRepository repository;
     private EmployeeRepository employeeRepository;
-    public SkillServiceImpl(SkillRepository repository, EmployeeRepository employeeRepository) {
+    private SkillAdapter adapter;
+    public SkillServiceImpl(SkillRepository repository, EmployeeRepository employeeRepository,
+                            SkillAdapter adapter) {
         this.repository = repository;
         this.employeeRepository = employeeRepository;
+        this.adapter = adapter;
     }
 
     @Override
     public Skill addSkillToEmployee(Long employeeId, EmployeeSkillRequest skill) {
         Optional<Employee> found = this.employeeRepository.findById(employeeId);
+        Skill mapped = this.adapter.mapToSkill(skill);
         if(found.isPresent()){
-            skill.setEmployee(found.get());
-            return repository.save(skill);
+            mapped.setEmployee(found.get());
+            return repository.save(mapped);
         }
         throw new NullPointerException();
     }
 
     @Override
-    public Skill updateEmployeeSkill(Long employeeId, Skill skill) {
+    public Skill updateEmployeeSkill(Long employeeId, Long skillId, EmployeeSkillRequest skill) {
         Optional<Employee> found = this.employeeRepository.findById(employeeId);
+        Skill mapped = this.adapter.mapToSkill(skill);
         if(found.isPresent()){
-            Optional<Skill> foundSkill = repository.findById(skill.getId());
+            Optional<Skill> foundSkill = repository.findById(skillId);
             if(foundSkill.isPresent()){
-                skill.setEmployee(found.get());
-                return repository.save(skill);
+                mapped.setEmployee(found.get());
+                return repository.save(mapped);
             }
         }
         throw new NullPointerException();

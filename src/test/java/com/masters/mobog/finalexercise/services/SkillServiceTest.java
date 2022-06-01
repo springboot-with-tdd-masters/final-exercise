@@ -1,11 +1,13 @@
 package com.masters.mobog.finalexercise.services;
 
+import com.masters.mobog.finalexercise.adapters.SkillAdapter;
 import com.masters.mobog.finalexercise.dto.EmployeeSkillRequest;
 import com.masters.mobog.finalexercise.entities.Employee;
 import com.masters.mobog.finalexercise.entities.Skill;
 import com.masters.mobog.finalexercise.repositories.EmployeeRepository;
 import com.masters.mobog.finalexercise.repositories.SkillRepository;
 import com.masters.mobog.finalexercise.services.impl.SkillServiceImpl;
+import org.apache.coyote.Adapter;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -34,10 +36,12 @@ public class SkillServiceTest {
     private SkillRepository repository;
     @Mock
     private EmployeeRepository employeeRepository;
+    private SkillAdapter adapter;
 
     @BeforeEach
     void setup(){
-        service = new SkillServiceImpl(repository, employeeRepository);
+        adapter = new SkillAdapter();
+        service = new SkillServiceImpl(repository, employeeRepository, adapter);
     }
 
     @Test
