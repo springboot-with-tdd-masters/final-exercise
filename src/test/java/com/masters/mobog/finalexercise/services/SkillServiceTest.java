@@ -203,6 +203,15 @@ public class SkillServiceTest {
         when(employeeRepository.findById(anyLong())).thenReturn(Optional.empty());
         //
         FinalExerciseException ex = assertThrows(FinalExerciseException.class, () -> service.deleteEmployeeSkill(1L, 1L));
+        assertEquals(ex.getMessage(), FinalExerciseExceptionsCode.EMPLOYEE_NOT_FOUND_EXCEPTION.getMessage());
+    }
+    @Test
+    @DisplayName("should throw correct exception if employee can not be deleted")
+    void shouldThrowCorrectException_delete2(){
+        when(employeeRepository.findById(anyLong())).thenReturn(Optional.of(new Employee()));
+        when(repository.findById(anyLong())).thenReturn(Optional.empty());
+        //
+        FinalExerciseException ex = assertThrows(FinalExerciseException.class, () -> service.deleteEmployeeSkill(1L, 1L));
         assertEquals(ex.getMessage(), FinalExerciseExceptionsCode.SKILL_NOT_FOUND_EXCEPTION.getMessage());
     }
 }
