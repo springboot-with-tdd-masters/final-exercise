@@ -1,5 +1,6 @@
 package com.masters.mobog.finalexercise.entities;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.masters.mobog.finalexercise.entities.audit.BaseAuditEntity;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
@@ -21,6 +22,8 @@ public class Skill extends BaseAuditEntity {
     private Integer duration;
 
     @Column
+    @Temporal(TemporalType.DATE)
+    @JsonFormat(pattern = "yyyy-MM-dd")
     private LocalDate lastUsed;
 
     @ManyToOne

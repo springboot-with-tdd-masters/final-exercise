@@ -1,7 +1,9 @@
 package com.masters.mobog.finalexercise.controllers;
 
 import com.masters.mobog.finalexercise.dto.EmployeeRequest;
+import com.masters.mobog.finalexercise.dto.EmployeeSkillRequest;
 import com.masters.mobog.finalexercise.entities.Employee;
+import com.masters.mobog.finalexercise.entities.Skill;
 import com.masters.mobog.finalexercise.services.EmployeeService;
 import com.masters.mobog.finalexercise.services.SkillService;
 import org.springframework.data.domain.Page;
@@ -38,5 +40,22 @@ public class EmployeeController {
     @PutMapping("/{id}")
     Employee updateEmployee(@PathVariable Long id, EmployeeRequest request){
        return this.employeeService.update(id, request);
+    }
+    @PostMapping("{id}/skills")
+    Skill addSkillToEmployee(@PathVariable Long id, @RequestBody EmployeeSkillRequest request){
+        return this.skillService.addSkillToEmployee(id, request);
+    }
+    @PutMapping("{id}/skills/{skillId}")
+    Skill addSkillToEmployee(@PathVariable Long id, @PathVariable Long skillId, @RequestBody EmployeeSkillRequest request){
+        return this.skillService.updateEmployeeSkill(id, skillId, request);
+    }
+    @GetMapping("{id}/skills")
+    Page<Skill> getEmployeSkillsWithPage(@PathVariable Long id, Pageable page){
+        return this.skillService.getAllEmployeeSkills(id, page);
+    }
+    @DeleteMapping("{id}/skills/{skillId}")
+    void deleteEmployeeSkills(@PathVariable Long id, @PathVariable Long skillId){
+
+        this.skillService.deleteEmployeeSkill(id, skillId);
     }
 }
