@@ -61,7 +61,9 @@ public class SkillRepositoryTest {
 
         // when
         Skill actual = entityManager.find(Skill.class, saved.getId());
-        assertNotNull(actual);
+        assertNotNull(actual.getCreatedDate());
+        assertNotNull(actual.getLastModifiedDate());
+        assertNotNull(actual.getCreatedBy());
 
     }
 
