@@ -50,8 +50,7 @@ public class SkillServiceImpl implements SkillService {
                 existingSkill.setDescription(mapped.getDescription());
                 existingSkill.setDuration(mapped.getDuration());
                 existingSkill.setLastUsed(mapped.getLastUsed());
-                mapped.setEmployee(found.get());
-                return repository.save(mapped);
+                return repository.save(existingSkill);
             }
             throw new FinalExerciseException(FinalExerciseExceptionsCode.SKILL_NOT_FOUND_EXCEPTION);
         }
