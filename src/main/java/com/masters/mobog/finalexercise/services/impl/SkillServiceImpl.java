@@ -71,9 +71,13 @@ public class SkillServiceImpl implements SkillService {
         Optional<Employee> found = this.employeeRepository.findById(employeeId);
         if(found.isPresent()){
             Optional<Skill> foundSkill = this.repository.findById(skillId);
-            foundSkill.ifPresent(this.repository::delete);
+            if(foundSkill.isPresent()){
+                this.repository.delete(foundSkill.get());
+            } else {
+                throw new FinalExerciseException(FinalExerciseExceptionsCode.SKILL_NOT_FOUND_EXCEPTION);
+            }
         } else {
-            throw new FinalExerciseException(FinalExerciseExceptionsCode.SKILL_NOT_FOUND_EXCEPTION);
+            throw new FinalExerciseException(FinalExerciseExceptionsCode.EMPLOYEE_NOT_FOUND_EXCEPTION);
         }
 
     }
