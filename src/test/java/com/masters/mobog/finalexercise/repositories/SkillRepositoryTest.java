@@ -9,6 +9,7 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -108,8 +109,10 @@ public class SkillRepositoryTest {
         skill2.setDescription("Skill 2");
         skill2.setLastUsed(LocalDate.now());
         skill2.setEmployee(employee1);
+        entityManager.persist(skill);
+        entityManager.persist(skill2);
         // when
-        Page<Employee> page = null;
+        Page<Skill> page = repository.findAll(Pageable.unpaged());
 
         assertEquals(List.of(skill, skill2), page.getContent());
     }
@@ -134,8 +137,10 @@ public class SkillRepositoryTest {
         skill2.setDescription("Skill 2");
         skill2.setLastUsed(LocalDate.now());
         skill2.setEmployee(employee1);
+        entityManager.persist(skill);
+        entityManager.persist(skill2);
         // when
-        Page<Employee> page = null;
+        Page<Skill> page = repository.findAll(PageRequest.of(0, 1));
 
         assertEquals(List.of(skill), page.getContent());
     }
@@ -158,5 +163,44 @@ public class SkillRepositoryTest {
         // then
         Optional<Skill> actual = repository.findById(saved.getId());
         assertTrue(actual.isEmpty());
+    }
+
+    @Test
+    @DisplayName("should get skills by employee id")
+    void shouldGetSkillsByEmployeeId(){
+        Employee employee1 = new Employee();
+        employee1.setFirstname("Jay");
+        employee1.setLastname("Rock");
+        Employee employee2 = new Employee();
+        employee2.setFirstname("Jay");
+        employee2.setLastname("Rock");
+
+
+        entityManager.persist(employee1);
+
+        Skill skill = new Skill();
+        skill.setDuration(2);
+        skill.setDescription("Skill 1");
+        skill.setLastUsed(LocalDate.now());
+        skill.setEmployee(employee1);
+
+        Skill skill2 = new Skill();
+        skill2.setDuration(2);
+        skill2.setDescription("Skill 2");
+        skill2.setLastUsed(LocalDate.now());
+        skill2.setEmployee(employee1);
+
+        Skill skill3 = new Skill();
+        skill3.setDuration(2);
+        skill3.setDescription("Skill 2");
+        skill3.setLastUsed(LocalDate.now());
+        skill3.setEmployee(employee2);
+        entityManager.persist(skill);
+        entityManager.persist(skill2);
+        entityManager.persist(skill3);
+
+        Page<Skill> actual = repository.findAllByEmployeeId(PageRequest.of(0, 2));
+
+        assertEquals(List.of(skill, skill2), actual.getContent());
     }
 }
