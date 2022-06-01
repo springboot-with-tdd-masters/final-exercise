@@ -1,9 +1,11 @@
 package com.masters.mobog.finalexercise.entities;
 
+import com.masters.mobog.finalexercise.entities.audit.BaseAuditEntity;
+
 import javax.persistence.*;
 
 @Entity
-public class Employee {
+public class Employee extends BaseAuditEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column

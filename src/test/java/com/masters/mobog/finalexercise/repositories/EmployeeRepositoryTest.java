@@ -9,12 +9,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 @DataJpaTest
 public class EmployeeRepositoryTest {
@@ -47,9 +48,9 @@ public class EmployeeRepositoryTest {
         entityManager.persist(employee1);
         entityManager.persist(employee2);
         // when
-        Page<Employee> page = null;
+        Page<Employee> page = employeeRepository.findAll(PageRequest.of(0, 1));
 
-        assertEquals(List.of(employee1, employee2), page.getContent());
+        assertEquals(List.of(employee1), page.getContent());
     }
 
     @Test
@@ -67,7 +68,7 @@ public class EmployeeRepositoryTest {
         entityManager.persist(employee1);
         entityManager.persist(employee2);
         // when
-        Page<Employee> page = null;
+        Page<Employee> page = employeeRepository.findAll(Pageable.unpaged());
 
         assertEquals(List.of(employee1, employee2), page.getContent());
     }
@@ -104,6 +105,13 @@ public class EmployeeRepositoryTest {
     @Test
     @DisplayName("should save employee with audit details")
     void shouldSaveEmployeeWithAuditDetails(){
+        Employee employee1 = new Employee();
+        employee1.setFirstname("Jay");
+        employee1.setLastname("Rock");
+        Employee saved = entityManager.persist(employee1);
 
+        assertNotNull(saved.getLastModifiedDate());
+        assertNotNull(saved.getCreatedDate());
+        assertNotNull(saved.getCreatedBy());
     }
 }
