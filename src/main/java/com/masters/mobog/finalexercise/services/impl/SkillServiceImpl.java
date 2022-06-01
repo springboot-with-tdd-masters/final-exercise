@@ -4,6 +4,8 @@ import com.masters.mobog.finalexercise.adapters.SkillAdapter;
 import com.masters.mobog.finalexercise.dto.EmployeeSkillRequest;
 import com.masters.mobog.finalexercise.entities.Employee;
 import com.masters.mobog.finalexercise.entities.Skill;
+import com.masters.mobog.finalexercise.exceptions.FinalExerciseException;
+import com.masters.mobog.finalexercise.exceptions.FinalExerciseExceptionsCode;
 import com.masters.mobog.finalexercise.repositories.EmployeeRepository;
 import com.masters.mobog.finalexercise.repositories.SkillRepository;
 import com.masters.mobog.finalexercise.services.SkillService;
@@ -13,9 +15,9 @@ import org.springframework.data.domain.Pageable;
 import java.util.Optional;
 
 public class SkillServiceImpl implements SkillService {
-    private SkillRepository repository;
-    private EmployeeRepository employeeRepository;
-    private SkillAdapter adapter;
+    private final SkillRepository repository;
+    private final EmployeeRepository employeeRepository;
+    private final SkillAdapter adapter;
     public SkillServiceImpl(SkillRepository repository, EmployeeRepository employeeRepository,
                             SkillAdapter adapter) {
         this.repository = repository;
@@ -31,21 +33,22 @@ public class SkillServiceImpl implements SkillService {
             mapped.setEmployee(found.get());
             return repository.save(mapped);
         }
-        throw new NullPointerException();
+        throw new FinalExerciseException(FinalExerciseExceptionsCode.EMPLOYEE_NOT_FOUND_EXCEPTION);
     }
 
     @Override
     public Skill updateEmployeeSkill(Long employeeId, Long skillId, EmployeeSkillRequest skill) {
         Optional<Employee> found = this.employeeRepository.findById(employeeId);
-        Skill mapped = this.adapter.mapToSkill(skill);
         if(found.isPresent()){
             Optional<Skill> foundSkill = repository.findById(skillId);
             if(foundSkill.isPresent()){
+                Skill mapped = this.adapter.mapToSkill(skill);
                 mapped.setEmployee(found.get());
                 return repository.save(mapped);
             }
+            throw new FinalExerciseException(FinalExerciseExceptionsCode.SKILL_NOT_FOUND_EXCEPTION);
         }
-        throw new NullPointerException();
+        throw new FinalExerciseException(FinalExerciseExceptionsCode.EMPLOYEE_NOT_FOUND_EXCEPTION);
     }
 
     @Override
@@ -54,7 +57,7 @@ public class SkillServiceImpl implements SkillService {
         if(found.isPresent()){
             return repository.findAllByEmployeeId(employeeId, page);
         }
-        throw new NullPointerException();
+        throw new FinalExerciseException(FinalExerciseExceptionsCode.EMPLOYEE_NOT_FOUND_EXCEPTION);
     }
 
     @Override
@@ -62,11 +65,9 @@ public class SkillServiceImpl implements SkillService {
         Optional<Employee> found = this.employeeRepository.findById(employeeId);
         if(found.isPresent()){
             Optional<Skill> foundSkill = this.repository.findById(skillId);
-            if(foundSkill.isPresent()){
-                this.repository.delete(foundSkill.get());
-            }
+            foundSkill.ifPresent(this.repository::delete);
         } else {
-            throw new NullPointerException();
+            throw new FinalExerciseException(FinalExerciseExceptionsCode.SKILL_NOT_FOUND_EXCEPTION);
         }
 
     }
