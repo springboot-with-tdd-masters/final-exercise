@@ -1,13 +1,15 @@
 package com.masters.mobog.finalexercise.services;
 
 import com.masters.mobog.finalexercise.adapters.SkillAdapter;
+import com.masters.mobog.finalexercise.dto.EmployeeRequest;
 import com.masters.mobog.finalexercise.dto.EmployeeSkillRequest;
 import com.masters.mobog.finalexercise.entities.Employee;
 import com.masters.mobog.finalexercise.entities.Skill;
+import com.masters.mobog.finalexercise.exceptions.FinalExerciseException;
+import com.masters.mobog.finalexercise.exceptions.FinalExerciseExceptionsCode;
 import com.masters.mobog.finalexercise.repositories.EmployeeRepository;
 import com.masters.mobog.finalexercise.repositories.SkillRepository;
 import com.masters.mobog.finalexercise.services.impl.SkillServiceImpl;
-import org.apache.coyote.Adapter;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -144,5 +146,46 @@ public class SkillServiceTest {
         verify(employeeRepository).findById(anyLong());
         verify(repository).findById(anyLong());
         verify(repository).delete(any(Skill.class));
+    }
+    @Test
+    @DisplayName("should throw correct exception if employee is not existing")
+    void shouldThrowCorrectException_getAllEmployeeSkills(){
+        when(employeeRepository.findById(anyLong())).thenReturn(Optional.empty());
+        //
+        FinalExerciseException ex = assertThrows(FinalExerciseException.class, () -> service.getAllEmployeeSkills(1L, Pageable.unpaged()));
+        assertEquals(ex.getMessage(), FinalExerciseExceptionsCode.EMPLOYEE_NOT_FOUND_EXCEPTION.getMessage());
+    }
+    @Test
+    @DisplayName("should throw correct exception if employee can not be saved")
+    void shouldThrowCorrectException_create(){
+        when(employeeRepository.findById(anyLong())).thenReturn(Optional.of(new Employee()));
+        //
+        FinalExerciseException ex = assertThrows(FinalExerciseException.class, () -> service.addSkillToEmployee(1L, new EmployeeSkillRequest()));
+        assertEquals(ex.getMessage(), FinalExerciseExceptionsCode.MAPPING_EXCEPTION.getMessage());
+    }
+    @Test
+    @DisplayName("should throw correct exception if employee not found")
+    void shouldThrowCorrectException_update(){
+        when(repository.findById(anyLong())).thenReturn(Optional.empty());
+        //
+        FinalExerciseException ex = assertThrows(FinalExerciseException.class, () -> service.updateEmployeeSkill(1L, 1L, new EmployeeSkillRequest()));
+        assertEquals(ex.getMessage(), FinalExerciseExceptionsCode.EMPLOYEE_NOT_FOUND_EXCEPTION.getMessage());
+    }
+    @Test
+    @DisplayName("should throw correct exception if employee skill is not existing")
+    void shouldThrowCorrectException_update2(){
+        when(employeeRepository.findById(anyLong())).thenReturn(Optional.of(new Employee()));
+        when(repository.findById(anyLong())).thenReturn(Optional.empty());
+        //
+        FinalExerciseException ex = assertThrows(FinalExerciseException.class, () -> service.updateEmployeeSkill(1L, 1L, new EmployeeSkillRequest()));
+        assertEquals(ex.getMessage(), FinalExerciseExceptionsCode.MAPPING_EXCEPTION.getMessage());
+    }
+    @Test
+    @DisplayName("should throw correct exception if employee can not be deleted")
+    void shouldThrowCorrectException_delete(){
+        when(repository.findById(anyLong())).thenReturn(Optional.empty());
+        //
+        FinalExerciseException ex = assertThrows(FinalExerciseException.class, () -> service.deleteEmployeeSkill(1L, 1L));
+        assertEquals(ex.getMessage(), FinalExerciseExceptionsCode.EMPLOYEE_NOT_FOUND_EXCEPTION.getMessage());
     }
 }

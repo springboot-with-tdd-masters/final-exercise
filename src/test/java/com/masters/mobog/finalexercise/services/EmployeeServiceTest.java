@@ -108,7 +108,7 @@ public class EmployeeServiceTest {
         // given
         EmployeeRequest request = new EmployeeRequest();
         request.setFirstname("Jay");
-        request.setFirstname("Rock");
+        request.setLastname("Rock");
 
         Employee stub = new Employee();
         stub.setId(1L);
@@ -137,7 +137,7 @@ public class EmployeeServiceTest {
         stub.setLastModifiedDate(LocalDateTime.now());
         when(repository.findById(anyLong())).thenReturn(Optional.of(stub));
         // when
-        service.delete(stub);
+        service.delete(1L);
         // then
         verify(repository).delete(stub);
     }
@@ -152,25 +152,32 @@ public class EmployeeServiceTest {
     @Test
     @DisplayName("should throw correct exception if employee can not be saved")
     void shouldThrowCorrectException_create(){
-        when(repository.findById(anyLong())).thenReturn(Optional.empty());
         //
-        FinalExerciseException ex = assertThrows(FinalExerciseException.class, () -> service.findById(1L));
-        assertEquals(ex.getMessage(), FinalExerciseExceptionsCode.EMPLOYEE_NOT_FOUND_EXCEPTION.getMessage());
+        FinalExerciseException ex = assertThrows(FinalExerciseException.class, () -> service.createEmployee(new EmployeeRequest()));
+        assertEquals(ex.getMessage(), FinalExerciseExceptionsCode.MAPPING_EXCEPTION.getMessage());
     }
     @Test
     @DisplayName("should throw correct exception if employee can not be updated")
     void shouldThrowCorrectException_update(){
         when(repository.findById(anyLong())).thenReturn(Optional.empty());
         //
-        FinalExerciseException ex = assertThrows(FinalExerciseException.class, () -> service.findById(1L));
+        FinalExerciseException ex = assertThrows(FinalExerciseException.class, () -> service.update(1L, new EmployeeRequest()));
         assertEquals(ex.getMessage(), FinalExerciseExceptionsCode.EMPLOYEE_NOT_FOUND_EXCEPTION.getMessage());
+    }
+    @Test
+    @DisplayName("should throw correct exception if employee can not be updated")
+    void shouldThrowCorrectException_update2(){
+        when(repository.findById(anyLong())).thenReturn(Optional.of(new Employee()));
+        //
+        FinalExerciseException ex = assertThrows(FinalExerciseException.class, () -> service.update(1L, new EmployeeRequest()));
+        assertEquals(ex.getMessage(), FinalExerciseExceptionsCode.MAPPING_EXCEPTION.getMessage());
     }
     @Test
     @DisplayName("should throw correct exception if employee can not be deleted")
     void shouldThrowCorrectException_delete(){
         when(repository.findById(anyLong())).thenReturn(Optional.empty());
         //
-        FinalExerciseException ex = assertThrows(FinalExerciseException.class, () -> service.findById(1L));
+        FinalExerciseException ex = assertThrows(FinalExerciseException.class, () -> service.delete(1L));
         assertEquals(ex.getMessage(), FinalExerciseExceptionsCode.EMPLOYEE_NOT_FOUND_EXCEPTION.getMessage());
     }
 }

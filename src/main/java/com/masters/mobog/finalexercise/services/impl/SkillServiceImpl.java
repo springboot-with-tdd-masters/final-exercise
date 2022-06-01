@@ -26,8 +26,8 @@ public class SkillServiceImpl implements SkillService {
     @Override
     public Skill addSkillToEmployee(Long employeeId, EmployeeSkillRequest skill) {
         Optional<Employee> found = this.employeeRepository.findById(employeeId);
-        Skill mapped = this.adapter.mapToSkill(skill);
         if(found.isPresent()){
+            Skill mapped = this.adapter.mapToSkill(skill);
             mapped.setEmployee(found.get());
             return repository.save(mapped);
         }

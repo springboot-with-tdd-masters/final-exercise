@@ -11,5 +11,5 @@ public interface EmployeeService {
     Employee createEmployee(EmployeeRequest employee);
     Page<Employee> findAll(Pageable pageable);
     Employee update(Long id, EmployeeRequest employee);
-    void delete(Employee employee);
+    void delete(Long id);
 }
