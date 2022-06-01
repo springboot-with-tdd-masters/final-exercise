@@ -22,7 +22,6 @@ public class Skill extends BaseAuditEntity {
     private Integer duration;
 
     @Column
-    @Temporal(TemporalType.DATE)
     @JsonFormat(pattern = "yyyy-MM-dd")
     private LocalDate lastUsed;
 

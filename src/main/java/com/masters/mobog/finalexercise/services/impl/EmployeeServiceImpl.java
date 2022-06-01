@@ -9,9 +9,11 @@ import com.masters.mobog.finalexercise.repositories.EmployeeRepository;
 import com.masters.mobog.finalexercise.services.EmployeeService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
+@Service
 public class EmployeeServiceImpl implements EmployeeService {
 
     private final EmployeeRepository repository;

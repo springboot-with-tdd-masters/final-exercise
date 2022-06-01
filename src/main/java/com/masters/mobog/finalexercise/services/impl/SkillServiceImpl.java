@@ -11,9 +11,11 @@ import com.masters.mobog.finalexercise.repositories.SkillRepository;
 import com.masters.mobog.finalexercise.services.SkillService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
+@Service
 public class SkillServiceImpl implements SkillService {
     private final SkillRepository repository;
     private final EmployeeRepository employeeRepository;
