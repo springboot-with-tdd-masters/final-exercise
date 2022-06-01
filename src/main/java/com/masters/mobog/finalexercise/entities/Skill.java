@@ -1,11 +1,14 @@
 package com.masters.mobog.finalexercise.entities;
 
+import com.masters.mobog.finalexercise.entities.audit.BaseAuditEntity;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+
 import javax.persistence.*;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 
+@EntityListeners(AuditingEntityListener.class)
 @Entity
-public class Skill {
+public class Skill extends BaseAuditEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column
