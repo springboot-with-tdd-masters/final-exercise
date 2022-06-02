@@ -1,5 +1,7 @@
 package com.example.finalexercise.service;
 
+import javax.transaction.Transactional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -11,6 +13,7 @@ import com.example.finalexercise.model.dto.EmployeeDto;
 import com.example.finalexercise.model.dto.EmployeeRequest;
 import com.example.finalexercise.repository.EmployeeRepository;
 
+@Transactional
 @Service
 public class EmployeeServiceImpl implements EmployeeService {
 
