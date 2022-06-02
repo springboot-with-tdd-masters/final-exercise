@@ -1,5 +1,6 @@
 package com.example.finalexercise.model;
 
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.Objects;
 
@@ -25,7 +26,7 @@ public class Skill extends AuditableEntity {
 	private int duration;
 	
 	@Column
-	private Date lastUsed;
+	private LocalDate lastUsed;
 	
 	@ManyToOne
 	private Employee employee;
@@ -54,11 +55,11 @@ public class Skill extends AuditableEntity {
 		this.duration = duration;
 	}
 
-	public Date getLastUsed() {
+	public LocalDate getLastUsed() {
 		return lastUsed;
 	}
 
-	public void setLastUsed(Date lastUsed) {
+	public void setLastUsed(LocalDate lastUsed) {
 		this.lastUsed = lastUsed;
 	}
 
@@ -74,7 +75,7 @@ public class Skill extends AuditableEntity {
 	public int hashCode() {
 		final int prime = 31;
 		int result = super.hashCode();
-		result = prime * result + Objects.hash(description, duration, employee, id, lastUsed);
+		result = prime * result + Objects.hash(description, duration, id, lastUsed);
 		return result;
 	}
 
@@ -88,7 +89,7 @@ public class Skill extends AuditableEntity {
 			return false;
 		Skill other = (Skill) obj;
 		return Objects.equals(description, other.description) && duration == other.duration
-				&& Objects.equals(employee, other.employee) && Objects.equals(id, other.id)
+				&& Objects.equals(id, other.id)
 				&& Objects.equals(lastUsed, other.lastUsed);
 	}
 
