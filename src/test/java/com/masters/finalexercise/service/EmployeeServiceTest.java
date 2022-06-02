@@ -17,7 +17,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import com.masters.finalexercise.model.Employee;
 import com.masters.finalexercise.repository.EmployeeRepository;
-import com.masters.finalexercise.repository.SkillRepository;
 
 @ExtendWith(MockitoExtension.class)
 public class EmployeeServiceTest {
@@ -25,10 +24,6 @@ public class EmployeeServiceTest {
 	@Mock
 	private EmployeeRepository employeeRepository;
 	
-	@Mock
-	private SkillRepository skillRepository;
-	
-	@Autowired
 	@InjectMocks
 	private EmployeeService employeeService = new EmployeeServiceImpl();
 	
