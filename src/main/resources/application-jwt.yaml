@@ -1,0 +1,18 @@
+management:
+  info:
+    env:
+      enabled: true
+  endpoints:
+    web:
+      exposure:
+        include: health,info
+info:
+  app:
+    name: '@project.name@'
+    version: '@project.version@'
+    encoding: '@project.build.sourceEncoding@'
+    java.version: '@java.version@'
+jwt:
+  salt: final-exercise
+  validity: 30000 # in millis
+  issuer: mobog
