@@ -25,9 +25,7 @@ public class SwaggerConfigurations {
                 .securitySchemes(List.of(apiKey()))
                 .select()
                 .apis(RequestHandlerSelectors.any())
-                //.paths(PathSelectors.ant("/users/**"))
                 .paths(PathSelectors.any())
-                //.paths(PathSelectors.ant("/skills/**"))
                 .build();
     }
 

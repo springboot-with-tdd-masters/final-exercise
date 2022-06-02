@@ -5,8 +5,6 @@ import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.softvision.masters.tdd.employeeskilltracker.SecurityTestConfig;
 import com.softvision.masters.tdd.employeeskilltracker.model.Employee;
-import com.softvision.masters.tdd.employeeskilltracker.model.Skill;
-import com.softvision.masters.tdd.employeeskilltracker.model.exception.BadRequestException;
 import com.softvision.masters.tdd.employeeskilltracker.model.exception.RecordNotFoundException;
 import com.softvision.masters.tdd.employeeskilltracker.service.EmployeeService;
 import com.softvision.masters.tdd.employeeskilltracker.service.SkillService;
@@ -106,7 +104,7 @@ public class EmployeesControllerTests {
     }
 
     @Test
-    @DisplayName("Given name as query param, response should only have authors name containing 'Ro'.")
+    @DisplayName("Given name as query param, response should only have employees name containing 'Ro'.")
     @WithUserDetails(MOCK_USER1_USERNAME)
     void test_getAll_success_withPaginationAndTitle() throws Exception {
 

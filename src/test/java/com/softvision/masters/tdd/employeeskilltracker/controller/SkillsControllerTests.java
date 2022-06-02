@@ -51,7 +51,8 @@ public class SkillsControllerTests {
         when(skillService.getAll(Pageable.ofSize(2)))
                 .thenReturn(createMockPage(List.of(getMockSkill1(), getMockSkill2())));
 
-        mockMvc.perform(get(SKILLS_CONTROLLER_ENDPOINT + "?size=2"))
+        mockMvc.perform(get(SKILLS_CONTROLLER_ENDPOINT)
+                        .param("size", "2"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.content[0].description", Matchers.is(MOCK_SKILL_DESCRIPTION_1)))
                 .andExpect(jsonPath("$.content[1].description", Matchers.is(MOCK_SKILL_DESCRIPTION_2)));
@@ -95,7 +96,7 @@ public class SkillsControllerTests {
 
     @Test
     @WithUserDetails(MOCK_USER2_USERNAME)
-    @DisplayName("Given title as query param, response should only have book name containing 'The'.")
+    @DisplayName("Given title as query param, response should only have skill description containing 'Mil'.")
     void test_getAll_success_withPaginationAndTitle() throws Exception {
 
         when(skillService.getDescriptionContaining(eq("Mil"), pageableCaptor.capture()))
@@ -122,7 +123,7 @@ public class SkillsControllerTests {
 
     @Test
     @WithUserDetails(MOCK_USER2_USERNAME)
-    @DisplayName("Given a record not found from service getAll, response should give http status 404 (not found).")
+    @DisplayName("Given record was not found from service getAll, response should give http status 404 (not found).")
     void test_getAll_fail() throws Exception {
         when(skillService.getAll(any())).thenThrow(RecordNotFoundException.class);
 

@@ -1,4 +1,4 @@
-package com.softvision.masters.tdd.employeeskilltracker.controller.web;
+package com.softvision.masters.tdd.employeeskilltracker.controller.forms;
 
 public class LoginForm {
     private String username;

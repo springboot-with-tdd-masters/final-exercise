@@ -1,7 +1,7 @@
 package com.softvision.masters.tdd.employeeskilltracker.controller;
 
-import com.softvision.masters.tdd.employeeskilltracker.controller.web.LoginForm;
-import com.softvision.masters.tdd.employeeskilltracker.controller.web.SignupForm;
+import com.softvision.masters.tdd.employeeskilltracker.controller.forms.LoginForm;
+import com.softvision.masters.tdd.employeeskilltracker.controller.forms.SignupForm;
 import com.softvision.masters.tdd.employeeskilltracker.security.jwt.JwtUtils;
 import com.softvision.masters.tdd.employeeskilltracker.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
