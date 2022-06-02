@@ -17,7 +17,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         return User.withUsername("admin")
                 .password("password")
-                .authorities("USER")
+                .authorities("ADMIN")
                 .passwordEncoder(passwordEncoder::encode)
                 .build();
     }
