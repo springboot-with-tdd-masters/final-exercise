@@ -1,6 +1,8 @@
 package com.example.finalexercise.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.example.finalexercise.exception.EmployeeNotFoundException;
@@ -25,24 +27,37 @@ public class EmployeeServiceImpl implements EmployeeService {
 		return EmployeeDto.convertToDto(savedEmployee);
 	}
 
+	@Override
 	public EmployeeDto getEmployee(Long l) {
 		return employeeRepository.findById(1L)
 				.map(EmployeeDto::convertToDto)
 				.orElseThrow(EmployeeNotFoundException::new);
 	}
 
+	@Override
 	public EmployeeDto updateEmployee(EmployeeRequest request) {
-		Employee employee = employeeRepository.findById(request.getId()).orElseThrow(EmployeeNotFoundException::new);
+		Employee employee = findEmployee(request.getId());
 		employee.setFirstname(request.getFirstname());
 		employee.setLastname(request.getLastname());
 
 		return EmployeeDto.convertToDto(employee);
 	}
 
+	@Override
 	public void deleteEmployee(Long id) {
 		Employee employee = employeeRepository.findById(id).orElseThrow(EmployeeNotFoundException::new);
 
 		employeeRepository.delete(employee);		
+	}
+
+	@Override
+	public Employee findEmployee(Long id) {
+		return employeeRepository.findById(id).orElseThrow(EmployeeNotFoundException::new);
+	}
+
+	@Override
+	public Page<EmployeeDto> getAllEmployees(Pageable pageable) {
+		return employeeRepository.findAll(pageable).map(EmployeeDto::convertToDto);
 	}
 
 }

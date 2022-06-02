@@ -1,8 +1,8 @@
 package com.example.finalexercise.controller;
 
-import java.util.Map;
-
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -28,6 +28,11 @@ public class EmployeeController {
 			return employeeService.saveEmployee(request);
 		}
 		return employeeService.updateEmployee(request);
+	}
+	
+	@GetMapping
+	public Page<EmployeeDto> getEmployees(Pageable page) {
+		return employeeService.getAllEmployees(page);
 	}
 	
 	@GetMapping("/{id}")

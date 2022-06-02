@@ -1,11 +1,13 @@
 package com.example.finalexercise.service;
 
+import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+import java.util.Arrays;
 import java.util.Date;
 import java.util.Optional;
 
@@ -15,7 +17,11 @@ import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 
 import com.example.finalexercise.exception.EmployeeNotFoundException;
 import com.example.finalexercise.model.Employee;
@@ -94,6 +100,34 @@ public class EmployeeServiceTest {
 		EmployeeDto actualResponse = employeeService.updateEmployee(empRequest);
 
 		assertEquals("Ian", actualResponse.getFirstname());
+	}
+	
+	@Test
+	@DisplayName("Should get all employees with paging and sorting")
+	public void getAllSkills() {
+		Employee emp = new Employee();
+	    emp.setId(1L);
+	    emp.setFirstname("Christian");
+	
+		Employee emp2 = new Employee();
+	    emp2.setId(2L);
+	    emp2.setFirstname("Juan");
+	
+	    Page<Employee> pagedEmployees = new PageImpl(Arrays.asList(emp2, emp));
+	    
+	 	Pageable pageable = PageRequest.of(0, 5, Sort.by(Sort.Direction.DESC, "firstname"));
+	    when(employeeRepository.findAll(pageable))
+	    	.thenReturn(pagedEmployees);
+
+	    Page<EmployeeDto> actualResponse = employeeService.getAllEmployees(pageable);
+	    
+	    assertAll(
+	    		() -> assertEquals(2, actualResponse.getNumberOfElements()),
+			    () -> assertEquals(2L, actualResponse.getContent().get(0).getId()),
+			    () -> assertEquals("Juan", actualResponse.getContent().get(0).getFirstname()),
+			    () -> assertEquals(1L, actualResponse.getContent().get(1).getId()),
+			    () -> assertEquals("Christian", actualResponse.getContent().get(1).getFirstname())
+		    );	
 	}
 	
 	@Test
