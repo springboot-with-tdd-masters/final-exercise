@@ -18,19 +18,10 @@ public class ResourceServiceConfig extends ResourceServerConfigurerAdapter{
 	
 	@Override
 	public void configure(HttpSecurity http) throws Exception {
-		http.requestMatcher(new OAuthRequestedMatcher())
-        	.authorizeRequests()
-            .anyRequest()
-            .authenticated();
+		http
+			.authorizeRequests()
+			.antMatchers("/actuator/**").permitAll()
+	        .anyRequest().authenticated();
 	}
-	
-	private static class OAuthRequestedMatcher implements RequestMatcher {
-        public boolean matches(HttpServletRequest request) {
-            String auth = request.getHeader("Authorization");
-            // Determine if the client request contained an OAuth Authorization
-            boolean haveOauth2Token = (auth != null) && auth.startsWith("Bearer");
-            boolean haveAccessToken = request.getParameter("access_token")!=null;
-            return haveOauth2Token || haveAccessToken;
-        }
-    }
+
 }
