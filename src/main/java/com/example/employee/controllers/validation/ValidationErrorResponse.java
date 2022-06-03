@@ -1,21 +1,21 @@
-package com.example.employee.controllers.advices;
+package com.example.employee.controllers.validation;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Collection;
+import java.util.TreeSet;
 
 public class ValidationErrorResponse {
 
-    private List<Violation> violations = new ArrayList<>();
+    private Collection<Violation> violations = new TreeSet<>();
 
     public void addViolation(final String field, final String message) {
         violations.add(new Violation(field, message));
     }
 
-    public List<Violation> getViolations() {
+    public Collection<Violation> getViolations() {
         return violations;
     }
 
-    public class Violation {
+    public class Violation implements Comparable<Violation> {
 
         final String fieldName;
         final String message;
@@ -31,6 +31,11 @@ public class ValidationErrorResponse {
 
         public String getMessage() {
             return message;
+        }
+
+        @Override
+        public int compareTo(Violation o) {
+            return this.fieldName.compareTo(o.fieldName);
         }
     }
 }

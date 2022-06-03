@@ -4,7 +4,9 @@ import org.springframework.http.HttpStatus;
 
 public enum EmployeeExceptionCode implements ExceptionCode {
 
-    EMPLOYEE_NOT_FOUND(HttpStatus.NOT_FOUND, "Employee not found.");
+    EMPLOYEE_NOT_FOUND(HttpStatus.NOT_FOUND, "Employee not found.")
+
+    ;
 
     final HttpStatus status;
 

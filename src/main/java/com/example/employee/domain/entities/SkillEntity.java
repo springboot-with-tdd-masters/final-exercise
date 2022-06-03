@@ -1,8 +1,11 @@
 package com.example.employee.domain.entities;
 
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
+
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
-import java.util.Date;
+import java.time.LocalDateTime;
 import java.util.Objects;
 
 @Entity
@@ -12,10 +15,19 @@ public class SkillEntity extends AbstractDomain {
 
     private int duration;
 
-    private Date lastUsed;
+    private LocalDateTime lastUsed;
 
     @ManyToOne
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private EmployeeEntity employeeEntity;
+
+    public SkillEntity() {}
+
+    public SkillEntity(String description, int duration, LocalDateTime lastUsed) {
+        this.description = description;
+        this.duration = duration;
+        this.lastUsed = lastUsed;
+    }
 
     public String getDescription() {
         return description;
@@ -33,11 +45,11 @@ public class SkillEntity extends AbstractDomain {
         this.duration = duration;
     }
 
-    public Date getLastUsed() {
+    public LocalDateTime getLastUsed() {
         return lastUsed;
     }
 
-    public void setLastUsed(Date lastUsed) {
+    public void setLastUsed(LocalDateTime lastUsed) {
         this.lastUsed = lastUsed;
     }
 

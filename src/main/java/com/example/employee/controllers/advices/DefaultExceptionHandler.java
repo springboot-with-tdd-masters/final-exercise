@@ -1,5 +1,6 @@
 package com.example.employee.controllers.advices;
 
+import com.example.employee.controllers.validation.ValidationErrorResponse;
 import com.example.employee.exceptions.DefaultException;
 import com.example.employee.exceptions.codes.InternalServerErrorCode;
 import org.springframework.http.HttpStatus;

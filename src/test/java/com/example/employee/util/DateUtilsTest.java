@@ -4,6 +4,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import java.time.LocalDateTime;
+import java.time.Month;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -35,5 +36,34 @@ class DateUtilsTest {
         assertNotNull(actual);
         assertTrue(actual.isEmpty());
         assertEquals("", actual);
+    }
+
+    @Test
+    @DisplayName("parse_shouldReturnLocalDateTime")
+    void parse_shouldReturnLocalDateTime() {
+        // Arrange
+        final String dateAsString = "2021-01-03";
+
+        // Act
+        final LocalDateTime actual = DateUtils.parse(dateAsString);
+
+        // Assert
+        assertNotNull(actual);
+        assertEquals(2021, actual.getYear());
+        assertEquals(Month.JANUARY, actual.getMonth());
+        assertEquals(3, actual.getDayOfMonth());
+    }
+
+    @Test
+    @DisplayName("parse_shouldReturnNullWhenEmptyStringIsGiven")
+    void parse_shouldReturnNullWhenEmptyStringIsGiven() {
+        // Arrange
+        final String empty = "";
+
+        // Act
+        final LocalDateTime actual = DateUtils.parse(empty);
+
+        // Assert
+        assertNull(actual);
     }
 }

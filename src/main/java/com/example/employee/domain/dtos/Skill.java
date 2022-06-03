@@ -12,6 +12,14 @@ public class Skill extends AbstractDto {
 
     private Long employeeId;
 
+    public Skill() {}
+
+    public Skill(String description, int duration, String lastUsed) {
+        this.description = description;
+        this.duration = duration;
+        this.lastUsed = lastUsed;
+    }
+
     public String getDescription() {
         return description;
     }

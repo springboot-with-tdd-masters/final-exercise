@@ -1,5 +1,6 @@
 package com.example.employee.util;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Objects;
@@ -19,5 +20,15 @@ public class DateUtils {
         }
 
         return localDateTimeToFormat.format(DEFAULT_DATE_TIME_FORMATTER);
+    }
+
+    public static LocalDateTime parse(String dateAsString) {
+
+        if (dateAsString.isEmpty()) {
+            return null;
+        }
+
+        return LocalDate.parse(dateAsString, DEFAULT_DATE_TIME_FORMATTER)
+                .atStartOfDay();
     }
 }

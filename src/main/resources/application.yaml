@@ -3,11 +3,9 @@ spring:
     name: Employee App
 
 management:
-
   info:
     env:
       enabled: true
-
   endpoints:
     web:
       exposure:

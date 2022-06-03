@@ -49,7 +49,7 @@ class EmployeeAdapterTest {
     void convert_shouldAcceptEmployeeEntityAndConvertToEmployee() {
         // Arrange
 
-        final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-mm-dd");
+        final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
         final Long id = 1L;
         final String firstName = "First Name";

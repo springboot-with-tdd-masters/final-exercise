@@ -4,6 +4,8 @@ import org.springframework.http.HttpStatus;
 
 public enum SkillExceptionCode implements ExceptionCode {
 
+    SKILL_NOT_FOUND(HttpStatus.NOT_FOUND, "Skill not found.")
+
     ;
 
     final HttpStatus status;

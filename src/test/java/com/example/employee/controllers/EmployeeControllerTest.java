@@ -5,6 +5,7 @@ import com.example.employee.domain.dtos.Employee;
 import com.example.employee.domain.dtos.requests.EmployeeRequest;
 import com.example.employee.exceptions.DefaultException;
 import com.example.employee.exceptions.codes.EmployeeExceptionCode;
+import com.example.employee.exceptions.codes.InternalServerErrorCode;
 import com.example.employee.services.EmployeeService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
@@ -31,8 +32,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @WebMvcTest(EmployeeController.class)
-@ExtendWith(MockitoExtension.class)
-class EmployeeControllerTest {
+class EmployeeControllerTest extends AbstractControllerTest {
 
     private final ObjectMapper objectMapper = new ObjectMapper();
 
@@ -264,8 +264,8 @@ class EmployeeControllerTest {
     }
 
     @Test
-    @DisplayName("delete_shouldThrowAnErrorWhenIdDoesntExists")
-    void delete_shouldThrowAnErrorWhenIdDoesntExists() throws Exception {
+    @DisplayName("delete_shouldReturn404WhenIdDoesntExists")
+    void delete_shouldReturn404WhenIdDoesntExists() throws Exception {
         // Arrange
         doThrow(new DefaultException(EmployeeExceptionCode.EMPLOYEE_NOT_FOUND))
                 .when(employeeService)
@@ -281,5 +281,25 @@ class EmployeeControllerTest {
 
         resultActions.andExpect(status().isNotFound());
         resultActions.andExpect(content().string("Employee not found."));
+    }
+
+    @Test
+    @DisplayName("delete_shouldReturn500WhenServiceThrowsInternalServerError")
+    void delete_shouldReturn500WhenServiceThrowsInternalServerError() throws Exception {
+        // Arrange
+        doThrow(new DefaultException())
+                .when(employeeService)
+                .delete(1L);
+
+        // Act
+        final ResultActions resultActions = mockMvc.perform(delete("/api/employees/1")
+                .contentType(MediaType.APPLICATION_JSON));
+
+        // Assert
+        verify(employeeService)
+                .delete(1L);
+
+        resultActions.andExpect(status().isInternalServerError());
+        resultActions.andExpect(content().string("Unable to process your request"));
     }
 }
