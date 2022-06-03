@@ -22,6 +22,11 @@ public class EmployeeDto extends BaseDto {
 
   }
 
+  public EmployeeDto(Employee employee) {
+    this(employee.getId(), employee.getFirstname(), employee.getLastname(), employee.getCreatedAt(),
+        employee.getUpdatedAt());
+  }
+
   public Long getId() {
     return id;
   }

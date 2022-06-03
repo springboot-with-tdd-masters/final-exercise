@@ -12,6 +12,8 @@ import javax.persistence.OneToMany;
 @Entity
 public class Employee extends AuditModel{
 
+  private static final long serialVersionUID = -2338626292552177485L;
+
   @Id
   @GeneratedValue(strategy = GenerationType.AUTO)
   private Long id;
@@ -28,6 +30,13 @@ public class Employee extends AuditModel{
     super();
     this.firstname = firstName;
     this.lastname = lastName;
+  }
+
+  public Employee(Long id, String firstname, String lastname) {
+    super();
+    this.id = id;
+    this.firstname = firstname;
+    this.lastname = lastname;
   }
 
   public Long getId() {

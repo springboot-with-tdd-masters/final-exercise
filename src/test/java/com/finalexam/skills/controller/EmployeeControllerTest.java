@@ -15,6 +15,7 @@ import com.finalexam.skills.exception.EmployeeNotFoundException;
 import com.finalexam.skills.model.dto.request.EmployeeRequestDto;
 import com.finalexam.skills.model.dto.response.EmployeeDto;
 import com.finalexam.skills.service.EmployeeService;
+import com.finalexam.skills.service.SkillService;
 import java.util.Arrays;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -40,6 +41,9 @@ public class EmployeeControllerTest {
 
   @MockBean
   private EmployeeService employeeService;
+
+  @MockBean
+  private SkillService skillService;
 
   private ObjectMapper objectMapper = new ObjectMapper();
 
@@ -197,7 +201,6 @@ public class EmployeeControllerTest {
         .andExpect(MockMvcResultMatchers.jsonPath("$.content.[2].lastname").value("BBB3"))
 
     ;
-
     verify(employeeService).getEmployees(pageable);
 
   }

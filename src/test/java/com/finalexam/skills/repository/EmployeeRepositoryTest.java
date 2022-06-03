@@ -23,7 +23,7 @@ public class EmployeeRepositoryTest {
 
   @Test
   @DisplayName("Should save employee with the correct details")
-  public void saveRegularAccount() {
+  public void saveEmployee() {
 
     Employee newEmployee = new Employee("John", "Wick");
 
@@ -52,13 +52,13 @@ public class EmployeeRepositoryTest {
     Pageable pageable = PageRequest.of(0, 3, Sort.by(Direction.ASC, "lastname"));
     Page<Employee> pagedEmployees = employeeRepository.findAll(pageable);
 
-    assertThat(1).isEqualTo(pagedEmployees.getTotalPages());
-    assertThat(3).isEqualTo(pagedEmployees.getTotalElements());
-    assertThat(3).isEqualTo(pagedEmployees.getNumberOfElements());
-    assertThat(3).isEqualTo(pagedEmployees.getContent().size());
-    assertThat("Stark").isEqualTo(pagedEmployees.getContent().get(0).getLastname());
-    assertThat("Strange").isEqualTo(pagedEmployees.getContent().get(1).getLastname());
-    assertThat("Wick").isEqualTo(pagedEmployees.getContent().get(2).getLastname());
+    assertThat(pagedEmployees.getTotalPages()).isEqualTo(1);
+    assertThat(pagedEmployees.getTotalElements()).isEqualTo(3);
+    assertThat(pagedEmployees.getNumberOfElements()).isEqualTo(3);
+    assertThat(pagedEmployees.getContent().size()).isEqualTo(3);
+    assertThat(pagedEmployees.getContent().get(0).getLastname()).isEqualTo("Stark");
+    assertThat(pagedEmployees.getContent().get(1).getLastname()).isEqualTo("Strange");
+    assertThat(pagedEmployees.getContent().get(2).getLastname()).isEqualTo("Wick");
 
   }
 

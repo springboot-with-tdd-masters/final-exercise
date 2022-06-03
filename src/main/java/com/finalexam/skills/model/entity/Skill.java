@@ -24,6 +24,16 @@ public class Skill extends AuditModel{
 
   private LocalDate lastUsed;
 
+  public Skill() {
+  }
+
+  public Skill(String description, Integer duration,
+      Employee employee, LocalDate lastUsed) {
+    this.description = description;
+    this.duration = duration;
+    this.employee = employee;
+    this.lastUsed = lastUsed;
+  }
 
   public Long getId() {
     return id;
@@ -63,28 +73,5 @@ public class Skill extends AuditModel{
 
   public void setLastUsed(LocalDate lastUsed) {
     this.lastUsed = lastUsed;
-  }
-
-  @Override
-  public boolean equals(Object o) {
-    if (this == o) {
-      return true;
-    }
-    if (o == null || getClass() != o.getClass()) {
-      return false;
-    }
-    if (!super.equals(o)) {
-      return false;
-    }
-    Skill skill = (Skill) o;
-    return Objects.equals(id, skill.id) && Objects.equals(description,
-        skill.description) && Objects.equals(duration, skill.duration)
-        && Objects.equals(employee, skill.employee) && Objects.equals(lastUsed,
-        skill.lastUsed);
-  }
-
-  @Override
-  public int hashCode() {
-    return Objects.hash(super.hashCode(), id, description, duration, employee, lastUsed);
   }
 }
