@@ -1,0 +1,20 @@
+spring:
+  application:
+    name: Employee App
+  profiles:
+    active: development
+
+management:
+  info:
+    env:
+      enabled: true
+  endpoints:
+    web:
+      exposure:
+        include: info, health, metrics
+
+info:
+  application:
+    name: ${spring.application.name}
+    description: Final Exercise Application
+    version: '@project.version@'
