@@ -23,10 +23,8 @@ import java.util.List;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.mockito.Mockito.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 
@@ -79,4 +77,14 @@ class EmployeeControllerTest {
 //
 //        verify(employeeServiceImpl).createNewEmployee(employeeRequest);
 //    }
+
+    @Test
+    @DisplayName("Given a successful delete, response should give http status 200")
+    public void successDeleteEmployee() throws Exception {
+        doNothing().when(employeeServiceImpl).deleteEmployeeById(1L);
+
+        this.mockMvc
+                .perform(delete("/employees/1"))
+                .andExpect(status().isOk());
+    }
 }

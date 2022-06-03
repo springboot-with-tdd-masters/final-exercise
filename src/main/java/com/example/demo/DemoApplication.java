@@ -9,17 +9,13 @@ import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 
-@EnableJpaAuditing
+
+
 @SpringBootApplication
 public class DemoApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(DemoApplication.class, args);
-	}
-
-	@Bean
-	public AuditorAware<String> auditor() {
-		return new Auditor();
 	}
 
 }
