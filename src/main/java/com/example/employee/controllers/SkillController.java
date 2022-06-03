@@ -1,8 +1,6 @@
 package com.example.employee.controllers;
 
-import com.example.employee.domain.dtos.Employee;
 import com.example.employee.domain.dtos.Skill;
-import com.example.employee.domain.dtos.requests.EmployeeRequest;
 import com.example.employee.domain.dtos.requests.SkillRequest;
 import com.example.employee.services.SkillService;
 import org.springframework.data.domain.Page;

@@ -3,17 +3,20 @@ package com.example.employee.domain.dtos.requests;
 import com.example.employee.controllers.validation.annotations.DateFormat;
 
 import javax.validation.constraints.Min;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.util.Objects;
 
 public class SkillRequest {
 
+    @NotBlank(message = "Description is required")
     private String description;
 
     @NotNull(message = "Duration is required")
     @Min(value = 0, message = "Duration must be positive number")
     private Integer duration;
 
+    @NotNull(message = "Last used is required")
     @DateFormat(pattern = "yyyy-MM-dd", message = "Last used skill must have a date with format yyyy-MM-dd (i.e 2020-06-03)")
     private String lastUsed;
 
