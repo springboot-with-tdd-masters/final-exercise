@@ -12,7 +12,7 @@ import java.time.LocalDateTime;
 public abstract class AbstractDomain {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     protected Long id;
 
     @CreatedDate
