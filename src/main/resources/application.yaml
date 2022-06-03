@@ -1,6 +1,8 @@
 spring:
   application:
     name: Employee App
+  profiles:
+    active: development
 
 management:
   info:
