@@ -14,7 +14,7 @@ public class SkillDto {
     private String description;
     private Integer duration;
     private String lastUsed;
-    private Long employeeId;
+    private Long employee_Id;
 
     public static SkillDto convertToDto(Skill skill) {
         SkillDto skillDto = new SkillDto();
@@ -24,7 +24,7 @@ public class SkillDto {
         skillDto.setDescription(skill.getDescription());
         skillDto.setDuration(skill.getDuration());
         skillDto.setLastUsed(skill.getLastUsed().toString());
-        skillDto.setEmployeeId(skill.getEmployee().getId());
+        skillDto.setEmployee_Id(skill.getEmployee().getId());
         return skillDto;
     }
 }

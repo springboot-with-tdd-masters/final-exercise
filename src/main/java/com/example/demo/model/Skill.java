@@ -17,7 +17,9 @@ import java.time.LocalDate;
 public class Skill extends AuditModel {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "skill_generator")
+    @SequenceGenerator(name="skill_generator", sequenceName = "skill_seq", allocationSize=50)
+    @Column(name = "id", updatable = false, nullable = false)
     private Long id;
 
     private String description;
