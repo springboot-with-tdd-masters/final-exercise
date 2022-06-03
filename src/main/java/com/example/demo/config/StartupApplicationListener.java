@@ -11,17 +11,17 @@ import org.springframework.stereotype.Component;
 @Component
 public class StartupApplicationListener implements ApplicationListener<ContextRefreshedEvent> {
 
-	@Autowired
-	private UserRepository userRepository;
-	
-	@Autowired
-	private PasswordEncoder encoder;
-	
-    @Override 
+    @Autowired
+    private UserRepository userRepository;
+
+    @Autowired
+    private PasswordEncoder encoder;
+
+    @Override
     public void onApplicationEvent(ContextRefreshedEvent event) {
-    	User user = new User();
-    	user.setUsername("admin");
-    	user.setPassword(encoder.encode("password"));
-    	userRepository.save(user);
+        User user = new User();
+        user.setUsername("admin");
+        user.setPassword(encoder.encode("password"));
+        userRepository.save(user);
     }
 }

@@ -1,7 +1,6 @@
 package com.example.demo.controller;
 
 import com.example.demo.dto.SkillDto;
-import com.example.demo.model.Skill;
 import com.example.demo.dto.SkillRequest;
 import com.example.demo.service.SkillServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,14 +25,9 @@ public class SkillController {
         return ResponseEntity.ok(skillServiceImpl.createNewSkill(employeeId, skillRequest));
     }
 
-//    @GetMapping("/{id}")
-//    public ResponseEntity<Skill> readSkillById(@PathVariable Long id) {
-//        return ResponseEntity.ok(skillServiceImpl.readSkillById(id));
-//    }
-
     @GetMapping("/{employeeId}/skills")
     private ResponseEntity<Page<SkillDto>> readAllSkillsOfEmployee(@PathVariable Long employeeId, @PageableDefault(sort = "id", direction = Sort.Direction.ASC)
-                                                        Pageable pageable) {
+    Pageable pageable) {
         return ResponseEntity.ok(skillServiceImpl.readAllSkills(employeeId, pageable));
     }
 

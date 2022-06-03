@@ -19,12 +19,12 @@ public class Employee extends AuditModel {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "employee_generator")
-    @SequenceGenerator(name="employee_generator", sequenceName = "employee_seq", allocationSize=50)
+    @SequenceGenerator(name = "employee_generator", sequenceName = "employee_seq", allocationSize = 50)
     @Column(name = "id", updatable = false, nullable = false)
     private Long id;
 
     @JsonIgnore
-    @OneToMany(mappedBy="employee")
+    @OneToMany(mappedBy = "employee")
     private Set<Skill> skills;
 
     private String firstName;

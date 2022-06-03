@@ -1,4 +1,4 @@
-package com.example.demo.model;
+package com.example.demo.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -12,7 +12,7 @@ import java.util.Optional;
 
 @Configuration
 @EnableJpaAuditing(auditorAwareRef = "auditorProvider")
-public class Auditor implements AuditorAware<String> {
+public class AuditConfig implements AuditorAware<String> {
 
     @Override
     public Optional<String> getCurrentAuditor() {
@@ -24,7 +24,7 @@ public class Auditor implements AuditorAware<String> {
 
     @Bean
     public AuditorAware<String> auditorProvider() {
-        return new Auditor();
+        return new AuditConfig();
     }
 
 }

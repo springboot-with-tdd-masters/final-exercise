@@ -18,7 +18,7 @@ public class Skill extends AuditModel {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "skill_generator")
-    @SequenceGenerator(name="skill_generator", sequenceName = "skill_seq", allocationSize=50)
+    @SequenceGenerator(name = "skill_generator", sequenceName = "skill_seq", allocationSize = 50)
     @Column(name = "id", updatable = false, nullable = false)
     private Long id;
 
@@ -29,6 +29,6 @@ public class Skill extends AuditModel {
     private LocalDate lastUsed;
 
     @ManyToOne(cascade = CascadeType.MERGE)
-    @JoinColumn(name="employee_id", referencedColumnName = "id")
+    @JoinColumn(name = "employee_id", referencedColumnName = "id")
     private Employee employee;
 }

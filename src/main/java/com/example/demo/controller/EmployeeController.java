@@ -1,7 +1,7 @@
 package com.example.demo.controller;
 
-import com.example.demo.model.Employee;
 import com.example.demo.dto.EmployeeRequest;
+import com.example.demo.model.Employee;
 import com.example.demo.service.EmployeeServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -23,7 +23,7 @@ public class EmployeeController {
 
     @PostMapping()
     public ResponseEntity<Employee> createUpdateEmployee(@Valid @RequestBody EmployeeRequest employeeRequest) {
-        if(Objects.isNull(employeeRequest.getId())){
+        if (Objects.isNull(employeeRequest.getId())) {
             return ResponseEntity.ok(employeeServiceImpl.createNewEmployee(employeeRequest));
         }
         return ResponseEntity.ok(employeeServiceImpl.updateEmployee(employeeRequest));
@@ -36,7 +36,7 @@ public class EmployeeController {
 
     @GetMapping()
     private ResponseEntity<Page<Employee>> readAllEmployees(@PageableDefault(sort = "id", direction = Sort.Direction.ASC)
-                                                        Pageable pageable) {
+                                                            Pageable pageable) {
         return ResponseEntity.ok(employeeServiceImpl.readAllEmployees(pageable));
     }
 

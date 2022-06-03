@@ -1,8 +1,8 @@
 package com.example.demo.service;
 
+import com.example.demo.dto.EmployeeRequest;
 import com.example.demo.exception.NotFoundException;
 import com.example.demo.model.Employee;
-import com.example.demo.dto.EmployeeRequest;
 import com.example.demo.repository.EmployeeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -13,7 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.Optional;
 
 @Service
-public class EmployeeServiceImpl implements EmployeeService{
+public class EmployeeServiceImpl implements EmployeeService {
     @Autowired
     private EmployeeRepository employeeRepository;
 
@@ -40,7 +40,7 @@ public class EmployeeServiceImpl implements EmployeeService{
     @Transactional
     public Employee updateEmployee(EmployeeRequest employeeRequest) {
         Optional<Employee> retrievedEmployee = employeeRepository.findById(employeeRequest.getId());
-        if(retrievedEmployee.isEmpty()){
+        if (retrievedEmployee.isEmpty()) {
             throw new NotFoundException(String.format("Employee with id %s not found", employeeRequest.getId()));
         }
 

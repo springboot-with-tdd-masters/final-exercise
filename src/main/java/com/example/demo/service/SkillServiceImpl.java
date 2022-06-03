@@ -19,7 +19,7 @@ import java.util.Optional;
 import java.util.function.Function;
 
 @Service
-public class SkillServiceImpl implements SkillService{
+public class SkillServiceImpl implements SkillService {
     @Autowired
     private EmployeeRepository employeeRepository;
 
@@ -28,7 +28,7 @@ public class SkillServiceImpl implements SkillService{
 
     public SkillDto createNewSkill(Long employeeId, SkillRequest skillRequest) {
         Optional<Employee> retrievedEmployee = findEmployeeById(employeeId);
-        if(retrievedEmployee.isEmpty()){
+        if (retrievedEmployee.isEmpty()) {
             throw new NotFoundException(String.format("Employee with id %s not found", employeeId));
         }
         return buildSkill(retrievedEmployee.get(), skillRequest);
@@ -62,7 +62,7 @@ public class SkillServiceImpl implements SkillService{
     @Transactional
     public SkillDto updateSkill(Long employeeId, Long skillId, SkillRequest skillRequest) {
         List<Skill> skillByEmployeeId = skillRepository.findByEmployeeId(employeeId);
-        if(skillByEmployeeId.isEmpty()){
+        if (skillByEmployeeId.isEmpty()) {
             throw new NotFoundException(String.format("Skill ID %s of the given Employee is not found", employeeId));
         }
 
@@ -77,7 +77,7 @@ public class SkillServiceImpl implements SkillService{
 
     public void deleteSkillById(Long employeeId, Long skillId) {
         List<Skill> skillByEmployeeId = skillRepository.findByEmployeeId(employeeId);
-        if(skillByEmployeeId.isEmpty()){
+        if (skillByEmployeeId.isEmpty()) {
             throw new NotFoundException(String.format("Skill ID %s of the given Employee is not found", employeeId));
         }
         skillRepository.deleteById(skillId);

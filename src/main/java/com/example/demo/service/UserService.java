@@ -17,18 +17,18 @@ import java.util.Optional;
 @Service("userService")
 public class UserService implements UserDetailsService {
 
-	@Autowired
-	private UserRepository userRepository;
-	
-	@Override
-	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-		User user = userRepository.findByUsername(username);
-		return Optional.ofNullable(user)
-			.map(u -> new org.springframework.security.core.userdetails.User(u.getUsername(), u.getPassword(), getAuthorityList()))
-			.orElseThrow(() -> new UsernameNotFoundException("Username not found"));
-	}
-	
-	private List<GrantedAuthority> getAuthorityList() {
-		return Arrays.asList(new SimpleGrantedAuthority("ROLE_ADMIN"));
-	}
+    @Autowired
+    private UserRepository userRepository;
+
+    @Override
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        User user = userRepository.findByUsername(username);
+        return Optional.ofNullable(user)
+                .map(u -> new org.springframework.security.core.userdetails.User(u.getUsername(), u.getPassword(), getAuthorityList()))
+                .orElseThrow(() -> new UsernameNotFoundException("Username not found"));
+    }
+
+    private List<GrantedAuthority> getAuthorityList() {
+        return Arrays.asList(new SimpleGrantedAuthority("ROLE_ADMIN"));
+    }
 }
