@@ -13,7 +13,6 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.filter.CorsFilter;
@@ -35,7 +34,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 			.authorizeRequests()
 			.anyRequest().authenticated()
 			.and()
-            .exceptionHandling().authenticationEntryPoint(authenticationEntryPoint());
+            .exceptionHandling();
 	}
 	
 	@Bean
@@ -70,10 +69,5 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		FilterRegistrationBean<CorsFilter> filter = new FilterRegistrationBean<>(new CorsFilter(source));
 		filter.setOrder(0);
 		return filter;
-	}
-	
-	@Bean
-	public AuthenticationEntryPoint authenticationEntryPoint(){
-		return new CustomAuthenticationEntryPoint();
 	}
 }

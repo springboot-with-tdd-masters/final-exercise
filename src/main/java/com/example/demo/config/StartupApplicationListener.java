@@ -21,8 +21,7 @@ public class StartupApplicationListener implements ApplicationListener<ContextRe
     public void onApplicationEvent(ContextRefreshedEvent event) {
     	User user = new User();
     	user.setUsername("admin");
-    	user.setPassword(encoder.encode("welcome123"));
-
+    	user.setPassword(encoder.encode("password"));
     	userRepository.save(user);
     }
 }

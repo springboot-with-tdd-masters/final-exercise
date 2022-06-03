@@ -14,28 +14,6 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 @Configuration
 @EnableSwagger2
 public class SwaggerConfig {
-//    @Bean
-//    public Docket api() {
-//        // @formatter:off
-//        //Register the controllers to swagger
-//        //Also it is configuring the Swagger Docket
-//        return new Docket(DocumentationType.SWAGGER_2).select()
-//                // .apis(RequestHandlerSelectors.any())
-//                .apis(Predicates.not(RequestHandlerSelectors.basePackage("org.springframework.boot")))
-//                // .paths(PathSelectors.any())
-//                // .paths(PathSelectors.ant("/swagger2-demo"))
-//                .build();
-//        // @formatter:on
-//    }
-//
-//    @Override
-//    public void addResourceHandlers(ResourceHandlerRegistry registry)
-//    {
-//        //enabling swagger-ui part for visual documentation
-//        registry.addResourceHandler("swagger-ui.html").addResourceLocations("classpath:/META-INF/resources/");
-//        registry.addResourceHandler("/webjars/**").addResourceLocations("classpath:/META-INF/resources/webjars/");
-//    }
-
     @Bean
     public Docket api() {
         return new Docket(DocumentationType.SWAGGER_2)
