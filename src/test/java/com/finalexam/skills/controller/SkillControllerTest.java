@@ -11,7 +11,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.finalexam.skills.exception.EmployeeNotFoundException;
 import com.finalexam.skills.exception.SkillNotFoundException;
 import com.finalexam.skills.model.dto.request.SkillRequestDto;
 import com.finalexam.skills.model.dto.response.EmployeeDto;
@@ -34,6 +33,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.http.MediaType;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
@@ -49,6 +49,9 @@ public class SkillControllerTest {
 
   @MockBean
   private SkillService skillService;
+
+  @MockBean
+  private UserDetailsService userService;
 
   private final ObjectMapper objectMapper = new ObjectMapper();
 
@@ -198,7 +201,7 @@ public class SkillControllerTest {
   @Test
   @DisplayName("Should return http 404 if parameter skillID is invalid - on delete")
   public void shouldReturn404ForNonexistingSkill_onDelete() throws Exception {
-    doThrow(new SkillNotFoundException()).when(skillService).deleteByEmployeeIdBySkillId(1L,2L);
+    doThrow(new SkillNotFoundException()).when(skillService).deleteByEmployeeIdBySkillId(1L, 2L);
     this.mockMvc.perform(delete("/employees/1/skills/2"))
         .andExpect(status().isNotFound());
   }
@@ -219,20 +222,19 @@ public class SkillControllerTest {
     skill1.setLastUsed(LocalDate.parse("2022-06-02", DateTimeFormatter.ISO_LOCAL_DATE));
     skill1.setEmployee(employee);
 
-    SkillDto skill2= new SkillDto();
+    SkillDto skill2 = new SkillDto();
     skill2.setId(2L);
     skill2.setDescription("Rolling thunder");
     skill2.setDuration(1);
     skill2.setLastUsed(LocalDate.parse("2022-06-02", DateTimeFormatter.ISO_LOCAL_DATE));
     skill2.setEmployee(employee);
 
-    SkillDto skill3= new SkillDto();
+    SkillDto skill3 = new SkillDto();
     skill3.setId(3L);
     skill3.setDescription("Ultra Instinct");
     skill3.setDuration(3);
     skill3.setLastUsed(LocalDate.parse("2022-06-02", DateTimeFormatter.ISO_LOCAL_DATE));
     skill3.setEmployee(employee);
-
 
     Page<SkillDto> skillDtoPage = new PageImpl(
         Arrays.asList(skill1, skill2, skill3));
@@ -244,11 +246,14 @@ public class SkillControllerTest {
 
     this.mockMvc.perform(get("/employees/1/skills?page=0&size=20&sort=description,asc"))
         .andExpect(status().isOk())
-        .andExpect(MockMvcResultMatchers.jsonPath("$.content.[0].description").value("Bowling Bash"))
+        .andExpect(
+            MockMvcResultMatchers.jsonPath("$.content.[0].description").value("Bowling Bash"))
         .andExpect(MockMvcResultMatchers.jsonPath("$.content.[0].duration").value(1))
-        .andExpect(MockMvcResultMatchers.jsonPath("$.content.[1].description").value("Rolling thunder"))
+        .andExpect(
+            MockMvcResultMatchers.jsonPath("$.content.[1].description").value("Rolling thunder"))
         .andExpect(MockMvcResultMatchers.jsonPath("$.content.[1].duration").value(1))
-        .andExpect(MockMvcResultMatchers.jsonPath("$.content.[2].description").value("Ultra Instinct"))
+        .andExpect(
+            MockMvcResultMatchers.jsonPath("$.content.[2].description").value("Ultra Instinct"))
         .andExpect(MockMvcResultMatchers.jsonPath("$.content.[2].duration").value(3))
     ;
     verify(skillService).getSkills(pageable);

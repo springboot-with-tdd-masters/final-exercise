@@ -29,6 +29,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.MediaType;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
@@ -44,6 +45,9 @@ public class EmployeeControllerTest {
 
   @MockBean
   private SkillService skillService;
+
+  @MockBean
+  private UserDetailsService userService;
 
   private ObjectMapper objectMapper = new ObjectMapper();
 
